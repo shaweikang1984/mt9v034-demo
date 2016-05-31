@@ -1,0 +1,10 @@
+#
+ip/.Xil
+#
+work_dir/
+!work_dir/mt9v034_demo.xpr
+#
+sdk/
+!sdk/mt9v034_demo_hw_platform_0
+!sdk/standalone_bsp_0
+!sdk/test0
