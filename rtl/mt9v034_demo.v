@@ -51,6 +51,17 @@ inout fixed_io_ps_clk,
 inout fixed_io_ps_porb,
 inout fixed_io_ps_srstb,
 /**********  *************/
+
+inout mt9v034_i2c_scl,
+inout mt9v034_i2c_sda,
+
+input shft_clkout_p,
+input shft_clkout_n,
+
+input ser_dataout_p,
+input ser_dataout_n,
+
+/**********  *************/
 input[7 : 0] sws_8bits_tri_i,
 output[7 : 0] leds_8bits_tri_o
 );
@@ -68,6 +79,21 @@ genvar i;
 /***********************************************************************************************************/
 /******************************************  Start Wire Declaration  ***************************************/
 /***********************************************************************************************************/
+/**********  *************/
+wire mt9v034_i2c_scl_oen;
+wire mt9v034_i2c_scl_o;
+wire mt9v034_i2c_scl_i;
+wire mt9v034_i2c_sda_oen;
+wire mt9v034_i2c_sda_o;
+wire mt9v034_i2c_sda_i;
+
+/**********  *************/
+wire dlck_p;
+wire dlck_n;
+wire dlo_p;
+wire dlo_n;
+
+
 /**********  *************/
 wire gp_m_axi_aclk;
 wire gp_m_axi_aresetn;
@@ -382,7 +408,59 @@ axi_crossbar_0 axi_crossbar_0_inst(
 .m_axi_rready( { m01_axi_rready, m00_axi_rready}) 
 );
 
+//------------------------------------------------------------------------------
+// NAME : 
+// TYPE : instance
+// -----------------------------------------------------------------------------
+// PURPOSE : 
+// -----------------------------------------------------------------------------
+// Other : 
+//------------------------------------------------------------------------------
+(* keep_hierarchy = "yes" *)
+image_path_wrap #(
+.TCQ( TCQ),
+.SIM( SIM))
+image_path_wrap_inst(
+/******************** sensor i2c access interface ***************************/
+.mt9v034_i2c_scl_oen( mt9v034_i2c_scl_oen),
+.mt9v034_i2c_scl_o( mt9v034_i2c_scl_o),
+.mt9v034_i2c_scl_i( mt9v034_i2c_scl_i),
+.mt9v034_i2c_sda_oen( mt9v034_i2c_sda_oen),
+.mt9v034_i2c_sda_o( mt9v034_i2c_sda_o),
+.mt9v034_i2c_sda_i( mt9v034_i2c_sda_i),
 
+/************************ sensor lvds ssync interface ***********************/
+.dlck_p( dlck_p),
+.dlck_n( dlck_n),
+.dlo_p( dlo_p),
+.dlo_n( dlo_n),
+
+//////////////////////// axi lite bus interface ////////////////////////
+.s_axi_aclk( gp_m_axi_aclk), // input wire s_aclk
+.s_axi_aresetn( gp_m_axi_aresetn), // input wire s_aresetn
+
+.s_axi_awaddr( m00_axi_awaddr), // input wire [31 : 0] s_axi_awaddr
+.s_axi_awvalid( m00_axi_awvalid), // input wire s_axi_awvalid
+.s_axi_awready( m00_axi_awready), // output wire s_axi_awready
+
+.s_axi_wdata( m00_axi_wdata), // input wire [31 : 0] s_axi_wdata
+.s_axi_wstrb( m00_axi_wstrb), // input wire [3 : 0] s_axi_wstrb
+.s_axi_wvalid( m00_axi_wvalid), // input wire s_axi_wvalid
+.s_axi_wready( m00_axi_wready), // output wire s_axi_wready
+
+.s_axi_bresp( m00_axi_bresp), // output wire [1 : 0] s_axi_bresp
+.s_axi_bvalid( m00_axi_bvalid), // output wire s_axi_bvalid
+.s_axi_bready( m00_axi_bready), // input wire s_axi_bready
+
+.s_axi_araddr( m00_axi_araddr), // input wire [31 : 0] s_axi_araddr
+.s_axi_arvalid( m00_axi_arvalid), // input wire s_axi_arvalid
+.s_axi_arready( m00_axi_arready), // output wire s_axi_arready
+
+.s_axi_rdata( m00_axi_rdata), // output wire [31 : 0] s_axi_rdata
+.s_axi_rresp( m00_axi_rresp), // output wire [1 : 0] s_axi_rresp
+.s_axi_rvalid( m00_axi_rvalid), // output wire s_axi_rvalid
+.s_axi_rready( m00_axi_rready) // input wire s_axi_rready
+);
 
 //------------------------------------------------------------------------------
 // NAME : 
@@ -420,6 +498,37 @@ ocm ocm_inst(
 .s_axi_rready( m01_axi_rready) // input wire s_axi_rready
 );
 
+
+//------------------------------------------------------------------------------
+// NAME : 
+// TYPE : instance
+// -----------------------------------------------------------------------------
+// PURPOSE : 
+// -----------------------------------------------------------------------------
+// Other : 
+//------------------------------------------------------------------------------
+IBUFDS_DIFF_OUT #(
+.DIFF_TERM( "TRUE"),    // Differential Termination, "TRUE"/"FALSE"
+.IBUF_LOW_PWR( "FALSE"), // Low power="TRUE", Highest performance="FALSE"
+.IOSTANDARD( "LVDS_25")) // Specify the input I/O standard
+ser_dataout_ibufds_diff_out_inst(
+.O( dlo_p),    // Buffer diff_p output
+.OB( dlo_n), // Buffer diff_n output
+.I( ser_dataout_p),      // Diff_p buffer input (connect directly to top-level port)
+.IB( ser_dataout_n)    // Diff_n buffer input (connect directly to top-level port)
+);
+
+IBUFGDS_DIFF_OUT #(
+.DIFF_TERM( "TRUE"),    // Differential Termination, "TRUE"/"FALSE"
+.IBUF_LOW_PWR( "FALSE"), // Low power="TRUE", Highest performance="FALSE"
+.IOSTANDARD( "LVDS_25")) // Specify the input I/O standard
+shft_clkout_ibufgds_diff_out_inst(
+.O( dlck_p),    // Buffer diff_p output
+.OB( dlck_n), // Buffer diff_n output
+.I( shft_clkout_p),      // Diff_p buffer input (connect directly to top-level port)
+.IB( shft_clkout_n)    // Diff_n buffer input (connect directly to top-level port)
+);
+
 /***********************************************************************************************************/
 /****************************************  End of instants Declaration  ************************************/
 /***********************************************************************************************************/
@@ -428,23 +537,6 @@ ocm ocm_inst(
 /*************************************************************************************************************/
 /*********************************  Start Design RTL Description  ********************************************/
 /*************************************************************************************************************/
-//------------------------------------------------------------------------------
-// NAME : 
-// TYPE : assignment
-// -----------------------------------------------------------------------------
-// PURPOSE : for test
-// -----------------------------------------------------------------------------
-// Other : 
-//------------------------------------------------------------------------------
-assign m00_axi_arready = 1'B1;
-assign m00_axi_awready = 1'B1;
-assign m00_axi_bresp = 2'B00;
-assign m00_axi_bvalid = 1'B0;
-assign m00_axi_rdata = 32'D0;
-assign m00_axi_rresp = 2'B00;
-assign m00_axi_rvalid = 1'B0;
-assign m00_axi_wready = 1'B0;
-
 //------------------------------------------------------------------------------
 // NAME : 
 // TYPE : assignment
