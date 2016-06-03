@@ -23,9 +23,15 @@
 //////////////////////////////////////////////////////////////////////////////////
 `timescale 1ps / 1ps
 
+`include "define.vh"
+
 module image_path_wrap #(
 parameter TCQ = 100,
 parameter SIM = 1)(
+input ref_clk,
+
+`ifdef test
+`else
 /******************** sensor i2c access interface ***************************/
 output mt9v034_i2c_scl_oen,
 output mt9v034_i2c_scl_o,
@@ -40,6 +46,106 @@ input dlck_n,
     
 input dlo_p,
 input dlo_n,
+
+`endif
+
+/**********  *************/
+output m_axi_hp0_aclk,
+///////////////////////////////////////////////////////////////////
+input [2:0]m_axi_hp0_fifo_ctrl_racount,
+input [7:0]m_axi_hp0_fifo_ctrl_rcount,
+output m_axi_hp0_fifo_ctrl_rdissuecapen,
+input [5:0]m_axi_hp0_fifo_ctrl_wacount,
+input [7:0]m_axi_hp0_fifo_ctrl_wcount,
+output m_axi_hp0_fifo_ctrl_wrissuecapen,
+///////////////////////////////////////////////////////////////////
+output [31:0]m_axi_hp0_araddr,
+output [1:0]m_axi_hp0_arburst,
+output [3:0]m_axi_hp0_arcache,
+output [5:0]m_axi_hp0_arid,
+output [3:0]m_axi_hp0_arlen,
+output [1:0]m_axi_hp0_arlock,
+output [2:0]m_axi_hp0_arprot,
+output [3:0]m_axi_hp0_arqos,
+input m_axi_hp0_arready,
+output [2:0]m_axi_hp0_arsize,
+output m_axi_hp0_arvalid,
+output [31:0]m_axi_hp0_awaddr,
+output [1:0]m_axi_hp0_awburst,
+output [3:0]m_axi_hp0_awcache,
+output [5:0]m_axi_hp0_awid,
+output [3:0]m_axi_hp0_awlen,
+output [1:0]m_axi_hp0_awlock,
+output [2:0]m_axi_hp0_awprot,
+output [3:0]m_axi_hp0_awqos,
+input m_axi_hp0_awready,
+output [2:0]m_axi_hp0_awsize,
+output m_axi_hp0_awvalid,
+input [5:0]m_axi_hp0_bid,
+output m_axi_hp0_bready,
+input [1:0]m_axi_hp0_bresp,
+input m_axi_hp0_bvalid,
+input [63:0]m_axi_hp0_rdata,
+input [5:0]m_axi_hp0_rid,
+input m_axi_hp0_rlast,
+output m_axi_hp0_rready,
+input [1:0]m_axi_hp0_rresp,
+input m_axi_hp0_rvalid,
+output [63:0]m_axi_hp0_wdata,
+output [5:0]m_axi_hp0_wid,
+output m_axi_hp0_wlast,
+input m_axi_hp0_wready,
+output [7:0]m_axi_hp0_wstrb,
+output m_axi_hp0_wvalid,
+
+/**********  *************/
+output m_axi_hp1_aclk,
+///////////////////////////////////////////////////////////////////
+input [2:0]m_axi_hp1_fifo_ctrl_racount,
+input [7:0]m_axi_hp1_fifo_ctrl_rcount,
+output m_axi_hp1_fifo_ctrl_rdissuecapen,
+input [5:0]m_axi_hp1_fifo_ctrl_wacount,
+input [7:0]m_axi_hp1_fifo_ctrl_wcount,
+output m_axi_hp1_fifo_ctrl_wrissuecapen,
+///////////////////////////////////////////////////////////////////
+output [31:0]m_axi_hp1_araddr,
+output [1:0]m_axi_hp1_arburst,
+output [3:0]m_axi_hp1_arcache,
+output [5:0]m_axi_hp1_arid,
+output [3:0]m_axi_hp1_arlen,
+output [1:0]m_axi_hp1_arlock,
+output [2:0]m_axi_hp1_arprot,
+output [3:0]m_axi_hp1_arqos,
+input m_axi_hp1_arready,
+output [2:0]m_axi_hp1_arsize,
+output m_axi_hp1_arvalid,
+output [31:0]m_axi_hp1_awaddr,
+output [1:0]m_axi_hp1_awburst,
+output [3:0]m_axi_hp1_awcache,
+output [5:0]m_axi_hp1_awid,
+output [3:0]m_axi_hp1_awlen,
+output [1:0]m_axi_hp1_awlock,
+output [2:0]m_axi_hp1_awprot,
+output [3:0]m_axi_hp1_awqos,
+input m_axi_hp1_awready,
+output [2:0]m_axi_hp1_awsize,
+output m_axi_hp1_awvalid,
+input [5:0]m_axi_hp1_bid,
+output m_axi_hp1_bready,
+input [1:0]m_axi_hp1_bresp,
+input m_axi_hp1_bvalid,
+input [63:0]m_axi_hp1_rdata,
+input [5:0]m_axi_hp1_rid,
+input m_axi_hp1_rlast,
+output m_axi_hp1_rready,
+input [1:0]m_axi_hp1_rresp,
+input m_axi_hp1_rvalid,
+output [63:0]m_axi_hp1_wdata,
+output [5:0]m_axi_hp1_wid,
+output m_axi_hp1_wlast,
+input m_axi_hp1_wready,
+output [7:0]m_axi_hp1_wstrb,
+output m_axi_hp1_wvalid,
 
 /********** axi lite bus interface *************/
 input s_axi_aclk,
@@ -105,11 +211,26 @@ wire i2c_trans_done;
 wire mmcm_locked;
 wire align_err;
 
-wire pixel_clk;
-wire im_vsync;
-wire im_hsync;
-wire im_valid;
-wire[15: 0] im_dout;
+wire im_pclk;
+
+wire im_vsync_t;
+wire im_hsync_t;
+wire im_valid_t;
+wire[7 : 0] im_dout_t;
+
+wire im_vsync_s;
+wire im_hsync_s;
+wire im_valid_s;
+wire[15: 0] im_dout_s;
+
+(* MARK_DEBUG = "TRUE" *)
+wire im_vsync_i;
+(* MARK_DEBUG = "TRUE" *)
+wire im_hsync_i;
+(* MARK_DEBUG = "TRUE" *)
+wire im_valid_i;
+(* MARK_DEBUG = "TRUE" *)
+wire[15: 0] im_dout_i;
 /*************************************************************************************************************/
 /*****************************************  End Wire Declaration  ********************************************/
 /*************************************************************************************************************/
@@ -137,7 +258,7 @@ reg s_axi_rvalid_d = 1'B0;
 reg[31: 0] s_axi_rdata_d = 32'D0;
 
 //////////////////////////////////////////////////////////////////////////////
-reg im_rst = 1'B1;
+reg im_rst = 1'B0;
 reg im_oe = 1'B0;
 
 reg i2c_trans_trg = 1'B0;
@@ -151,7 +272,36 @@ reg[10: 0] i2c_trans_din = 11'D0;
 /***********************************************************************************************************/
 /*****************************************  Start instants Declaration  ************************************/
 /***********************************************************************************************************/
+`ifdef test
+//------------------------------------------------------------------------------
+// NAME : 
+// TYPE : instance
+// -----------------------------------------------------------------------------
+// PURPOSE : 
+// -----------------------------------------------------------------------------
+// Other : 
+//------------------------------------------------------------------------------
+test_image_gen #(
+.TCQ( 100),
+.SIM( 1),
+.VSYNC_WIDTH( 12'D16),
+.HSYNC_WIDTH( 12'D50),
+.ROW_NUM( 12'D480),
+.COL_NUM( 12'D752))
+test_image_gen_inst(
+.rst( rst_i),
+.ref_clk( ref_clk),
+/******************** image i/f ***************************/
+.mmcm_lock( mmcm_locked),
 
+.im_pclk( im_pclk),
+.im_vsync( im_vsync_t),
+.im_hsync( im_hsync_t),
+.im_valid( im_valid_t),
+.im_dout( im_dout_t)
+);
+
+`else
 //------------------------------------------------------------------------------
 // NAME : 
 // TYPE : instance
@@ -204,11 +354,133 @@ mt9v034_bridge(
 .mmcm_locked( mmcm_locked),
 .align_err( align_err),
 
-.pixel_clk( pixel_clk),
-.im_vsync( im_vsync),
-.im_hsync( im_hsync),
-.im_valid( im_valid),
-.im_dout( im_dout)
+.pixel_clk( im_pclk),
+.im_vsync( im_vsync_s),
+.im_hsync( im_hsync_s),
+.im_valid( im_valid_s),
+.im_dout( im_dout_s)
+);
+
+`endif
+
+//------------------------------------------------------------------------------
+// NAME : 
+// TYPE : instance
+// -----------------------------------------------------------------------------
+// PURPOSE : 
+// -----------------------------------------------------------------------------
+// Other : 
+//------------------------------------------------------------------------------
+image_dma #(
+.TCQ( TCQ),
+.SIM( SIM))
+image_dma_inst(
+.rst( im_rst),
+
+/**********  *************/
+.im_pclk( im_pclk),
+.im_vsync( im_vsync_i),
+.im_hsync( im_hsync_i),
+.im_valid( im_valid_i),
+.im_dout( im_dout_i),
+
+/**********  *************/
+.m_axi_hp0_aclk( m_axi_hp0_aclk),
+///////////////////////////////////////////////////////////////////
+.m_axi_hp0_fifo_ctrl_racount( m_axi_hp0_fifo_ctrl_racount),
+.m_axi_hp0_fifo_ctrl_rcount( m_axi_hp0_fifo_ctrl_rcount),
+.m_axi_hp0_fifo_ctrl_rdissuecapen( m_axi_hp0_fifo_ctrl_rdissuecapen),
+.m_axi_hp0_fifo_ctrl_wacount( m_axi_hp0_fifo_ctrl_wacount),
+.m_axi_hp0_fifo_ctrl_wcount( m_axi_hp0_fifo_ctrl_wcount),
+.m_axi_hp0_fifo_ctrl_wrissuecapen( m_axi_hp0_fifo_ctrl_wrissuecapen),
+///////////////////////////////////////////////////////////////////
+.m_axi_hp0_araddr( m_axi_hp0_araddr),
+.m_axi_hp0_arburst( m_axi_hp0_arburst),
+.m_axi_hp0_arcache( m_axi_hp0_arcache),
+.m_axi_hp0_arid( m_axi_hp0_arid),
+.m_axi_hp0_arlen( m_axi_hp0_arlen),
+.m_axi_hp0_arlock( m_axi_hp0_arlock),
+.m_axi_hp0_arprot( m_axi_hp0_arprot),
+.m_axi_hp0_arqos( m_axi_hp0_arqos),
+.m_axi_hp0_arready( m_axi_hp0_arready),
+.m_axi_hp0_arsize( m_axi_hp0_arsize),
+.m_axi_hp0_arvalid( m_axi_hp0_arvalid),
+.m_axi_hp0_awaddr( m_axi_hp0_awaddr),
+.m_axi_hp0_awburst( m_axi_hp0_awburst),
+.m_axi_hp0_awcache( m_axi_hp0_awcache),
+.m_axi_hp0_awid( m_axi_hp0_awid),
+.m_axi_hp0_awlen( m_axi_hp0_awlen),
+.m_axi_hp0_awlock( m_axi_hp0_awlock),
+.m_axi_hp0_awprot( m_axi_hp0_awprot),
+.m_axi_hp0_awqos( m_axi_hp0_awqos),
+.m_axi_hp0_awready( m_axi_hp0_awready),
+.m_axi_hp0_awsize( m_axi_hp0_awsize),
+.m_axi_hp0_awvalid( m_axi_hp0_awvalid),
+.m_axi_hp0_bid( m_axi_hp0_bid),
+.m_axi_hp0_bready( m_axi_hp0_bready),
+.m_axi_hp0_bresp( m_axi_hp0_bresp),
+.m_axi_hp0_bvalid( m_axi_hp0_bvalid),
+.m_axi_hp0_rdata( m_axi_hp0_rdata),
+.m_axi_hp0_rid( m_axi_hp0_rid),
+.m_axi_hp0_rlast( m_axi_hp0_rlast),
+.m_axi_hp0_rready( m_axi_hp0_rready),
+.m_axi_hp0_rresp( m_axi_hp0_rresp),
+.m_axi_hp0_rvalid( m_axi_hp0_rvalid),
+.m_axi_hp0_wdata( m_axi_hp0_wdata),
+.m_axi_hp0_wid( m_axi_hp0_wid),
+.m_axi_hp0_wlast( m_axi_hp0_wlast),
+.m_axi_hp0_wready( m_axi_hp0_wready),
+.m_axi_hp0_wstrb( m_axi_hp0_wstrb),
+.m_axi_hp0_wvalid( m_axi_hp0_wvalid),
+
+/**********  *************/
+.m_axi_hp1_aclk( m_axi_hp1_aclk),
+///////////////////////////////////////////////////////////////////
+.m_axi_hp1_fifo_ctrl_racount( m_axi_hp1_fifo_ctrl_racount),
+.m_axi_hp1_fifo_ctrl_rcount( m_axi_hp1_fifo_ctrl_rcount),
+.m_axi_hp1_fifo_ctrl_rdissuecapen( m_axi_hp1_fifo_ctrl_rdissuecapen),
+.m_axi_hp1_fifo_ctrl_wacount( m_axi_hp1_fifo_ctrl_wacount),
+.m_axi_hp1_fifo_ctrl_wcount( m_axi_hp1_fifo_ctrl_wcount),
+.m_axi_hp1_fifo_ctrl_wrissuecapen( m_axi_hp1_fifo_ctrl_wrissuecapen),
+///////////////////////////////////////////////////////////////////
+.m_axi_hp1_araddr( m_axi_hp1_araddr),
+.m_axi_hp1_arburst( m_axi_hp1_arburst),
+.m_axi_hp1_arcache( m_axi_hp1_arcache),
+.m_axi_hp1_arid( m_axi_hp1_arid),
+.m_axi_hp1_arlen( m_axi_hp1_arlen),
+.m_axi_hp1_arlock( m_axi_hp1_arlock),
+.m_axi_hp1_arprot( m_axi_hp1_arprot),
+.m_axi_hp1_arqos( m_axi_hp1_arqos),
+.m_axi_hp1_arready( m_axi_hp1_arready),
+.m_axi_hp1_arsize( m_axi_hp1_arsize),
+.m_axi_hp1_arvalid( m_axi_hp1_arvalid),
+.m_axi_hp1_awaddr( m_axi_hp1_awaddr),
+.m_axi_hp1_awburst( m_axi_hp1_awburst),
+.m_axi_hp1_awcache( m_axi_hp1_awcache),
+.m_axi_hp1_awid( m_axi_hp1_awid),
+.m_axi_hp1_awlen( m_axi_hp1_awlen),
+.m_axi_hp1_awlock( m_axi_hp1_awlock),
+.m_axi_hp1_awprot( m_axi_hp1_awprot),
+.m_axi_hp1_awqos( m_axi_hp1_awqos),
+.m_axi_hp1_awready( m_axi_hp1_awready),
+.m_axi_hp1_awsize( m_axi_hp1_awsize),
+.m_axi_hp1_awvalid( m_axi_hp1_awvalid),
+.m_axi_hp1_bid( m_axi_hp1_bid),
+.m_axi_hp1_bready( m_axi_hp1_bready),
+.m_axi_hp1_bresp( m_axi_hp1_bresp),
+.m_axi_hp1_bvalid( m_axi_hp1_bvalid),
+.m_axi_hp1_rdata( m_axi_hp1_rdata),
+.m_axi_hp1_rid( m_axi_hp1_rid),
+.m_axi_hp1_rlast( m_axi_hp1_rlast),
+.m_axi_hp1_rready( m_axi_hp1_rready),
+.m_axi_hp1_rresp( m_axi_hp1_rresp),
+.m_axi_hp1_rvalid( m_axi_hp1_rvalid),
+.m_axi_hp1_wdata( m_axi_hp1_wdata),
+.m_axi_hp1_wid( m_axi_hp1_wid),
+.m_axi_hp1_wlast( m_axi_hp1_wlast),
+.m_axi_hp1_wready( m_axi_hp1_wready),
+.m_axi_hp1_wstrb( m_axi_hp1_wstrb),
+.m_axi_hp1_wvalid( m_axi_hp1_wvalid)
 );
 
 /***********************************************************************************************************/
@@ -229,6 +501,20 @@ mt9v034_bridge(
 //------------------------------------------------------------------------------
 assign rst_i = im_rst;
 
+
+
+`ifdef test
+assign im_vsync_i = im_vsync_t;
+assign im_hsync_i = im_hsync_t;
+assign im_valid_i = im_valid_t;
+assign im_dout_i = { 2{ im_dout_t}};
+`else
+assign im_vsync_i = im_vsync_s;
+assign im_hsync_i = im_hsync_s;
+assign im_valid_i = im_valid_s;
+assign im_dout_i = im_dout_s;
+`endif
+
 //------------------------------------------------------------------------------
 // NAME : 
 // TYPE : process
@@ -237,7 +523,7 @@ assign rst_i = im_rst;
 // -----------------------------------------------------------------------------
 // Other : 
 //------------------------------------------------------------------------------
-always @( posedge axi_aclk or negedge s_axi_aresetn)
+always @( posedge s_axi_aclk or negedge s_axi_aresetn)
 begin
     if( ~s_axi_aresetn) begin
         reg_rst_d <= #TCQ 4'Hf;
@@ -269,7 +555,7 @@ assign reg_re = s_axi_arvalid;
 // -----------------------------------------------------------------------------
 // Other : 
 //------------------------------------------------------------------------------
-always @( posedge axi_aclk or posedge reg_rst)
+always @( posedge s_axi_aclk or posedge reg_rst)
 begin
     if( reg_rst) begin
         reg_we_d <= #TCQ 1'B0;
@@ -282,7 +568,7 @@ begin
     end
 end
 
-always @( posedge axi_aclk or posedge reg_rst)
+always @( posedge s_axi_aclk or posedge reg_rst)
 begin
     if( reg_rst) begin
         s_axi_bvalid_d <= #TCQ 1'B0;
@@ -311,7 +597,7 @@ assign s_axi_bvalid = s_axi_bvalid_d;
 // -----------------------------------------------------------------------------
 // Other : 
 //------------------------------------------------------------------------------
-always @( posedge axi_aclk or posedge reg_rst)
+always @( posedge s_axi_aclk or posedge reg_rst)
 begin
     if( reg_rst) begin
         reg_re_d <= #TCQ 1'B0;
@@ -324,7 +610,7 @@ begin
     end
 end
 
-always @( posedge axi_aclk or posedge reg_rst)
+always @( posedge s_axi_aclk or posedge reg_rst)
 begin
     if( reg_rst) begin
         s_axi_rvalid_d <= #TCQ 1'B0;
@@ -357,7 +643,7 @@ assign s_axi_rvalid = s_axi_rvalid_d;
 always @( posedge s_axi_aclk or posedge reg_rst)
 begin
     if( reg_rst) begin
-        im_rst <= #TCQ 1'B1;
+        im_rst <= #TCQ 1'B0;
         im_oe <= #TCQ 1'B0;
     end else begin
         if( reg_we & ( s_axi_awaddr[9 : 2] == ADDR_IMG_PATH_RST)) begin

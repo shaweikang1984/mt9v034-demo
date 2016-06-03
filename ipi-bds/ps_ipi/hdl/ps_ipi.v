@@ -1,7 +1,7 @@
 //Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2016.1 (win64) Build 1538259 Fri Apr  8 15:45:27 MDT 2016
-//Date        : Tue May 31 12:33:45 2016
+//Date        : Fri Jun 03 12:29:37 2016
 //Host        : craig-WS running 64-bit major release  (build 9200)
 //Command     : generate_target ps_ipi.bd
 //Design      : ps_ipi
@@ -9,7 +9,7 @@
 //--------------------------------------------------------------------------------
 `timescale 1 ps / 1 ps
 
-(* CORE_GENERATION_INFO = "ps_ipi,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=ps_ipi,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=7,numReposBlks=5,numNonXlnxBlks=0,numHierBlks=2,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=0,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=2,da_board_cnt=2,da_ps7_cnt=1,synth_mode=OOC_per_BD}" *) (* HW_HANDOFF = "ps_ipi.hwdef" *) 
+(* CORE_GENERATION_INFO = "ps_ipi,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=ps_ipi,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=7,numReposBlks=5,numNonXlnxBlks=0,numHierBlks=2,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=0,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=2,da_board_cnt=4,da_ps7_cnt=1,synth_mode=OOC_per_BD}" *) (* HW_HANDOFF = "ps_ipi.hwdef" *) 
 module ps_ipi
    (DDR_addr,
     DDR_ba,
@@ -98,8 +98,54 @@ module ps_ipi
     S_AXI_HP0_wready,
     S_AXI_HP0_wstrb,
     S_AXI_HP0_wvalid,
+    S_AXI_HP1_ACLK,
+    S_AXI_HP1_FIFO_CTRL_racount,
+    S_AXI_HP1_FIFO_CTRL_rcount,
+    S_AXI_HP1_FIFO_CTRL_rdissuecapen,
+    S_AXI_HP1_FIFO_CTRL_wacount,
+    S_AXI_HP1_FIFO_CTRL_wcount,
+    S_AXI_HP1_FIFO_CTRL_wrissuecapen,
+    S_AXI_HP1_araddr,
+    S_AXI_HP1_arburst,
+    S_AXI_HP1_arcache,
+    S_AXI_HP1_arid,
+    S_AXI_HP1_arlen,
+    S_AXI_HP1_arlock,
+    S_AXI_HP1_arprot,
+    S_AXI_HP1_arqos,
+    S_AXI_HP1_arready,
+    S_AXI_HP1_arsize,
+    S_AXI_HP1_arvalid,
+    S_AXI_HP1_awaddr,
+    S_AXI_HP1_awburst,
+    S_AXI_HP1_awcache,
+    S_AXI_HP1_awid,
+    S_AXI_HP1_awlen,
+    S_AXI_HP1_awlock,
+    S_AXI_HP1_awprot,
+    S_AXI_HP1_awqos,
+    S_AXI_HP1_awready,
+    S_AXI_HP1_awsize,
+    S_AXI_HP1_awvalid,
+    S_AXI_HP1_bid,
+    S_AXI_HP1_bready,
+    S_AXI_HP1_bresp,
+    S_AXI_HP1_bvalid,
+    S_AXI_HP1_rdata,
+    S_AXI_HP1_rid,
+    S_AXI_HP1_rlast,
+    S_AXI_HP1_rready,
+    S_AXI_HP1_rresp,
+    S_AXI_HP1_rvalid,
+    S_AXI_HP1_wdata,
+    S_AXI_HP1_wid,
+    S_AXI_HP1_wlast,
+    S_AXI_HP1_wready,
+    S_AXI_HP1_wstrb,
+    S_AXI_HP1_wvalid,
     m_axi_aclk,
-    m_axi_aresetn);
+    m_axi_aresetn,
+    ref_clk);
   inout [14:0]DDR_addr;
   inout [2:0]DDR_ba;
   inout DDR_cas_n;
@@ -187,8 +233,54 @@ module ps_ipi
   output S_AXI_HP0_wready;
   input [7:0]S_AXI_HP0_wstrb;
   input S_AXI_HP0_wvalid;
+  input S_AXI_HP1_ACLK;
+  output [2:0]S_AXI_HP1_FIFO_CTRL_racount;
+  output [7:0]S_AXI_HP1_FIFO_CTRL_rcount;
+  input S_AXI_HP1_FIFO_CTRL_rdissuecapen;
+  output [5:0]S_AXI_HP1_FIFO_CTRL_wacount;
+  output [7:0]S_AXI_HP1_FIFO_CTRL_wcount;
+  input S_AXI_HP1_FIFO_CTRL_wrissuecapen;
+  input [31:0]S_AXI_HP1_araddr;
+  input [1:0]S_AXI_HP1_arburst;
+  input [3:0]S_AXI_HP1_arcache;
+  input [5:0]S_AXI_HP1_arid;
+  input [3:0]S_AXI_HP1_arlen;
+  input [1:0]S_AXI_HP1_arlock;
+  input [2:0]S_AXI_HP1_arprot;
+  input [3:0]S_AXI_HP1_arqos;
+  output S_AXI_HP1_arready;
+  input [2:0]S_AXI_HP1_arsize;
+  input S_AXI_HP1_arvalid;
+  input [31:0]S_AXI_HP1_awaddr;
+  input [1:0]S_AXI_HP1_awburst;
+  input [3:0]S_AXI_HP1_awcache;
+  input [5:0]S_AXI_HP1_awid;
+  input [3:0]S_AXI_HP1_awlen;
+  input [1:0]S_AXI_HP1_awlock;
+  input [2:0]S_AXI_HP1_awprot;
+  input [3:0]S_AXI_HP1_awqos;
+  output S_AXI_HP1_awready;
+  input [2:0]S_AXI_HP1_awsize;
+  input S_AXI_HP1_awvalid;
+  output [5:0]S_AXI_HP1_bid;
+  input S_AXI_HP1_bready;
+  output [1:0]S_AXI_HP1_bresp;
+  output S_AXI_HP1_bvalid;
+  output [63:0]S_AXI_HP1_rdata;
+  output [5:0]S_AXI_HP1_rid;
+  output S_AXI_HP1_rlast;
+  input S_AXI_HP1_rready;
+  output [1:0]S_AXI_HP1_rresp;
+  output S_AXI_HP1_rvalid;
+  input [63:0]S_AXI_HP1_wdata;
+  input [5:0]S_AXI_HP1_wid;
+  input S_AXI_HP1_wlast;
+  output S_AXI_HP1_wready;
+  input [7:0]S_AXI_HP1_wstrb;
+  input S_AXI_HP1_wvalid;
   output m_axi_aclk;
   output [0:0]m_axi_aresetn;
+  output ref_clk;
 
   wire [31:0]S00_AXI_1_ARADDR;
   wire [1:0]S00_AXI_1_ARBURST;
@@ -273,6 +365,51 @@ module ps_ipi
   wire [5:0]S_AXI_HP0_FIFO_CTRL_1_WACOUNT;
   wire [7:0]S_AXI_HP0_FIFO_CTRL_1_WCOUNT;
   wire S_AXI_HP0_FIFO_CTRL_1_WRISSUECAPEN;
+  wire [31:0]S_AXI_HP1_1_ARADDR;
+  wire [1:0]S_AXI_HP1_1_ARBURST;
+  wire [3:0]S_AXI_HP1_1_ARCACHE;
+  wire [5:0]S_AXI_HP1_1_ARID;
+  wire [3:0]S_AXI_HP1_1_ARLEN;
+  wire [1:0]S_AXI_HP1_1_ARLOCK;
+  wire [2:0]S_AXI_HP1_1_ARPROT;
+  wire [3:0]S_AXI_HP1_1_ARQOS;
+  wire S_AXI_HP1_1_ARREADY;
+  wire [2:0]S_AXI_HP1_1_ARSIZE;
+  wire S_AXI_HP1_1_ARVALID;
+  wire [31:0]S_AXI_HP1_1_AWADDR;
+  wire [1:0]S_AXI_HP1_1_AWBURST;
+  wire [3:0]S_AXI_HP1_1_AWCACHE;
+  wire [5:0]S_AXI_HP1_1_AWID;
+  wire [3:0]S_AXI_HP1_1_AWLEN;
+  wire [1:0]S_AXI_HP1_1_AWLOCK;
+  wire [2:0]S_AXI_HP1_1_AWPROT;
+  wire [3:0]S_AXI_HP1_1_AWQOS;
+  wire S_AXI_HP1_1_AWREADY;
+  wire [2:0]S_AXI_HP1_1_AWSIZE;
+  wire S_AXI_HP1_1_AWVALID;
+  wire [5:0]S_AXI_HP1_1_BID;
+  wire S_AXI_HP1_1_BREADY;
+  wire [1:0]S_AXI_HP1_1_BRESP;
+  wire S_AXI_HP1_1_BVALID;
+  wire [63:0]S_AXI_HP1_1_RDATA;
+  wire [5:0]S_AXI_HP1_1_RID;
+  wire S_AXI_HP1_1_RLAST;
+  wire S_AXI_HP1_1_RREADY;
+  wire [1:0]S_AXI_HP1_1_RRESP;
+  wire S_AXI_HP1_1_RVALID;
+  wire [63:0]S_AXI_HP1_1_WDATA;
+  wire [5:0]S_AXI_HP1_1_WID;
+  wire S_AXI_HP1_1_WLAST;
+  wire S_AXI_HP1_1_WREADY;
+  wire [7:0]S_AXI_HP1_1_WSTRB;
+  wire S_AXI_HP1_1_WVALID;
+  wire S_AXI_HP1_ACLK_1;
+  wire [2:0]S_AXI_HP1_FIFO_CTRL_1_RACOUNT;
+  wire [7:0]S_AXI_HP1_FIFO_CTRL_1_RCOUNT;
+  wire S_AXI_HP1_FIFO_CTRL_1_RDISSUECAPEN;
+  wire [5:0]S_AXI_HP1_FIFO_CTRL_1_WACOUNT;
+  wire [7:0]S_AXI_HP1_FIFO_CTRL_1_WCOUNT;
+  wire S_AXI_HP1_FIFO_CTRL_1_WRISSUECAPEN;
   wire [7:0]axi_gpio_0_GPIO2_TRI_I;
   wire [7:0]axi_gpio_0_GPIO_TRI_O;
   wire [31:0]axi_interconnect_0_M00_AXI_ARADDR;
@@ -327,6 +464,7 @@ module ps_ipi
   wire processing_system7_0_DDR_RESET_N;
   wire processing_system7_0_DDR_WE_N;
   wire processing_system7_0_FCLK_CLK0;
+  wire processing_system7_0_FCLK_CLK1;
   wire processing_system7_0_FCLK_RESET0_N;
   wire processing_system7_0_FIXED_IO_DDR_VRN;
   wire processing_system7_0_FIXED_IO_DDR_VRP;
@@ -432,6 +570,51 @@ module ps_ipi
   assign S_AXI_HP0_rresp[1:0] = S_AXI_HP0_1_RRESP;
   assign S_AXI_HP0_rvalid = S_AXI_HP0_1_RVALID;
   assign S_AXI_HP0_wready = S_AXI_HP0_1_WREADY;
+  assign S_AXI_HP1_1_ARADDR = S_AXI_HP1_araddr[31:0];
+  assign S_AXI_HP1_1_ARBURST = S_AXI_HP1_arburst[1:0];
+  assign S_AXI_HP1_1_ARCACHE = S_AXI_HP1_arcache[3:0];
+  assign S_AXI_HP1_1_ARID = S_AXI_HP1_arid[5:0];
+  assign S_AXI_HP1_1_ARLEN = S_AXI_HP1_arlen[3:0];
+  assign S_AXI_HP1_1_ARLOCK = S_AXI_HP1_arlock[1:0];
+  assign S_AXI_HP1_1_ARPROT = S_AXI_HP1_arprot[2:0];
+  assign S_AXI_HP1_1_ARQOS = S_AXI_HP1_arqos[3:0];
+  assign S_AXI_HP1_1_ARSIZE = S_AXI_HP1_arsize[2:0];
+  assign S_AXI_HP1_1_ARVALID = S_AXI_HP1_arvalid;
+  assign S_AXI_HP1_1_AWADDR = S_AXI_HP1_awaddr[31:0];
+  assign S_AXI_HP1_1_AWBURST = S_AXI_HP1_awburst[1:0];
+  assign S_AXI_HP1_1_AWCACHE = S_AXI_HP1_awcache[3:0];
+  assign S_AXI_HP1_1_AWID = S_AXI_HP1_awid[5:0];
+  assign S_AXI_HP1_1_AWLEN = S_AXI_HP1_awlen[3:0];
+  assign S_AXI_HP1_1_AWLOCK = S_AXI_HP1_awlock[1:0];
+  assign S_AXI_HP1_1_AWPROT = S_AXI_HP1_awprot[2:0];
+  assign S_AXI_HP1_1_AWQOS = S_AXI_HP1_awqos[3:0];
+  assign S_AXI_HP1_1_AWSIZE = S_AXI_HP1_awsize[2:0];
+  assign S_AXI_HP1_1_AWVALID = S_AXI_HP1_awvalid;
+  assign S_AXI_HP1_1_BREADY = S_AXI_HP1_bready;
+  assign S_AXI_HP1_1_RREADY = S_AXI_HP1_rready;
+  assign S_AXI_HP1_1_WDATA = S_AXI_HP1_wdata[63:0];
+  assign S_AXI_HP1_1_WID = S_AXI_HP1_wid[5:0];
+  assign S_AXI_HP1_1_WLAST = S_AXI_HP1_wlast;
+  assign S_AXI_HP1_1_WSTRB = S_AXI_HP1_wstrb[7:0];
+  assign S_AXI_HP1_1_WVALID = S_AXI_HP1_wvalid;
+  assign S_AXI_HP1_ACLK_1 = S_AXI_HP1_ACLK;
+  assign S_AXI_HP1_FIFO_CTRL_1_RDISSUECAPEN = S_AXI_HP1_FIFO_CTRL_rdissuecapen;
+  assign S_AXI_HP1_FIFO_CTRL_1_WRISSUECAPEN = S_AXI_HP1_FIFO_CTRL_wrissuecapen;
+  assign S_AXI_HP1_FIFO_CTRL_racount[2:0] = S_AXI_HP1_FIFO_CTRL_1_RACOUNT;
+  assign S_AXI_HP1_FIFO_CTRL_rcount[7:0] = S_AXI_HP1_FIFO_CTRL_1_RCOUNT;
+  assign S_AXI_HP1_FIFO_CTRL_wacount[5:0] = S_AXI_HP1_FIFO_CTRL_1_WACOUNT;
+  assign S_AXI_HP1_FIFO_CTRL_wcount[7:0] = S_AXI_HP1_FIFO_CTRL_1_WCOUNT;
+  assign S_AXI_HP1_arready = S_AXI_HP1_1_ARREADY;
+  assign S_AXI_HP1_awready = S_AXI_HP1_1_AWREADY;
+  assign S_AXI_HP1_bid[5:0] = S_AXI_HP1_1_BID;
+  assign S_AXI_HP1_bresp[1:0] = S_AXI_HP1_1_BRESP;
+  assign S_AXI_HP1_bvalid = S_AXI_HP1_1_BVALID;
+  assign S_AXI_HP1_rdata[63:0] = S_AXI_HP1_1_RDATA;
+  assign S_AXI_HP1_rid[5:0] = S_AXI_HP1_1_RID;
+  assign S_AXI_HP1_rlast = S_AXI_HP1_1_RLAST;
+  assign S_AXI_HP1_rresp[1:0] = S_AXI_HP1_1_RRESP;
+  assign S_AXI_HP1_rvalid = S_AXI_HP1_1_RVALID;
+  assign S_AXI_HP1_wready = S_AXI_HP1_1_WREADY;
   assign axi_gpio_0_GPIO2_TRI_I = SWs_8Bits_tri_i[7:0];
   assign axi_protocol_converter_0_M_AXI_ARREADY = M_AXI_arready;
   assign axi_protocol_converter_0_M_AXI_AWREADY = M_AXI_awready;
@@ -443,6 +626,7 @@ module ps_ipi
   assign axi_protocol_converter_0_M_AXI_WREADY = M_AXI_wready;
   assign m_axi_aclk = processing_system7_0_FCLK_CLK0;
   assign m_axi_aresetn[0] = rst_processing_system7_0_100M_peripheral_aresetn;
+  assign ref_clk = processing_system7_0_FCLK_CLK1;
   ps_ipi_axi_gpio_0_0 axi_gpio_0
        (.gpio2_io_i(axi_gpio_0_GPIO2_TRI_I),
         .gpio_io_o(axi_gpio_0_GPIO_TRI_O),
@@ -606,6 +790,7 @@ module ps_ipi
         .DDR_VRP(FIXED_IO_ddr_vrp),
         .DDR_WEB(DDR_we_n),
         .FCLK_CLK0(processing_system7_0_FCLK_CLK0),
+        .FCLK_CLK1(processing_system7_0_FCLK_CLK1),
         .FCLK_RESET0_N(processing_system7_0_FCLK_RESET0_N),
         .MIO(FIXED_IO_mio[53:0]),
         .M_AXI_GP0_ACLK(processing_system7_0_FCLK_CLK0),
@@ -734,6 +919,51 @@ module ps_ipi
         .S_AXI_HP0_WRISSUECAP1_EN(S_AXI_HP0_FIFO_CTRL_1_WRISSUECAPEN),
         .S_AXI_HP0_WSTRB(S_AXI_HP0_1_WSTRB),
         .S_AXI_HP0_WVALID(S_AXI_HP0_1_WVALID),
+        .S_AXI_HP1_ACLK(S_AXI_HP1_ACLK_1),
+        .S_AXI_HP1_ARADDR(S_AXI_HP1_1_ARADDR),
+        .S_AXI_HP1_ARBURST(S_AXI_HP1_1_ARBURST),
+        .S_AXI_HP1_ARCACHE(S_AXI_HP1_1_ARCACHE),
+        .S_AXI_HP1_ARID(S_AXI_HP1_1_ARID),
+        .S_AXI_HP1_ARLEN(S_AXI_HP1_1_ARLEN),
+        .S_AXI_HP1_ARLOCK(S_AXI_HP1_1_ARLOCK),
+        .S_AXI_HP1_ARPROT(S_AXI_HP1_1_ARPROT),
+        .S_AXI_HP1_ARQOS(S_AXI_HP1_1_ARQOS),
+        .S_AXI_HP1_ARREADY(S_AXI_HP1_1_ARREADY),
+        .S_AXI_HP1_ARSIZE(S_AXI_HP1_1_ARSIZE),
+        .S_AXI_HP1_ARVALID(S_AXI_HP1_1_ARVALID),
+        .S_AXI_HP1_AWADDR(S_AXI_HP1_1_AWADDR),
+        .S_AXI_HP1_AWBURST(S_AXI_HP1_1_AWBURST),
+        .S_AXI_HP1_AWCACHE(S_AXI_HP1_1_AWCACHE),
+        .S_AXI_HP1_AWID(S_AXI_HP1_1_AWID),
+        .S_AXI_HP1_AWLEN(S_AXI_HP1_1_AWLEN),
+        .S_AXI_HP1_AWLOCK(S_AXI_HP1_1_AWLOCK),
+        .S_AXI_HP1_AWPROT(S_AXI_HP1_1_AWPROT),
+        .S_AXI_HP1_AWQOS(S_AXI_HP1_1_AWQOS),
+        .S_AXI_HP1_AWREADY(S_AXI_HP1_1_AWREADY),
+        .S_AXI_HP1_AWSIZE(S_AXI_HP1_1_AWSIZE),
+        .S_AXI_HP1_AWVALID(S_AXI_HP1_1_AWVALID),
+        .S_AXI_HP1_BID(S_AXI_HP1_1_BID),
+        .S_AXI_HP1_BREADY(S_AXI_HP1_1_BREADY),
+        .S_AXI_HP1_BRESP(S_AXI_HP1_1_BRESP),
+        .S_AXI_HP1_BVALID(S_AXI_HP1_1_BVALID),
+        .S_AXI_HP1_RACOUNT(S_AXI_HP1_FIFO_CTRL_1_RACOUNT),
+        .S_AXI_HP1_RCOUNT(S_AXI_HP1_FIFO_CTRL_1_RCOUNT),
+        .S_AXI_HP1_RDATA(S_AXI_HP1_1_RDATA),
+        .S_AXI_HP1_RDISSUECAP1_EN(S_AXI_HP1_FIFO_CTRL_1_RDISSUECAPEN),
+        .S_AXI_HP1_RID(S_AXI_HP1_1_RID),
+        .S_AXI_HP1_RLAST(S_AXI_HP1_1_RLAST),
+        .S_AXI_HP1_RREADY(S_AXI_HP1_1_RREADY),
+        .S_AXI_HP1_RRESP(S_AXI_HP1_1_RRESP),
+        .S_AXI_HP1_RVALID(S_AXI_HP1_1_RVALID),
+        .S_AXI_HP1_WACOUNT(S_AXI_HP1_FIFO_CTRL_1_WACOUNT),
+        .S_AXI_HP1_WCOUNT(S_AXI_HP1_FIFO_CTRL_1_WCOUNT),
+        .S_AXI_HP1_WDATA(S_AXI_HP1_1_WDATA),
+        .S_AXI_HP1_WID(S_AXI_HP1_1_WID),
+        .S_AXI_HP1_WLAST(S_AXI_HP1_1_WLAST),
+        .S_AXI_HP1_WREADY(S_AXI_HP1_1_WREADY),
+        .S_AXI_HP1_WRISSUECAP1_EN(S_AXI_HP1_FIFO_CTRL_1_WRISSUECAPEN),
+        .S_AXI_HP1_WSTRB(S_AXI_HP1_1_WSTRB),
+        .S_AXI_HP1_WVALID(S_AXI_HP1_1_WVALID),
         .USB0_VBUS_PWRFAULT(1'b0));
   ps_ipi_rst_processing_system7_0_100M_0 rst_processing_system7_0_100M
        (.aux_reset_in(1'b1),

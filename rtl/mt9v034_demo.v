@@ -23,6 +23,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 `timescale 1ps / 1ps
 
+`include "define.vh"
 
 module mt9v034_demo #(
 parameter TCQ = 100,
@@ -52,6 +53,9 @@ inout fixed_io_ps_porb,
 inout fixed_io_ps_srstb,
 /**********  *************/
 
+`ifdef test
+`else
+/**********  *************/
 inout mt9v034_i2c_scl,
 inout mt9v034_i2c_sda,
 
@@ -60,6 +64,7 @@ input shft_clkout_n,
 
 input ser_dataout_p,
 input ser_dataout_n,
+`endif
 
 /**********  *************/
 input[7 : 0] sws_8bits_tri_i,
@@ -79,6 +84,10 @@ genvar i;
 /***********************************************************************************************************/
 /******************************************  Start Wire Declaration  ***************************************/
 /***********************************************************************************************************/
+wire ref_clk;
+
+`ifdef test
+`else
 /**********  *************/
 wire mt9v034_i2c_scl_oen;
 wire mt9v034_i2c_scl_o;
@@ -92,7 +101,7 @@ wire dlck_p;
 wire dlck_n;
 wire dlo_p;
 wire dlo_n;
-
+`endif
 
 /**********  *************/
 wire gp_m_axi_aclk;
@@ -232,6 +241,55 @@ wire s_axi_hp0_wready;
 wire[7 : 0] s_axi_hp0_wstrb;
 wire s_axi_hp0_wvalid;
 
+/**********  *************/
+wire s_axi_hp1_aclk;
+
+wire[2 : 0] s_axi_hp1_fifo_ctrl_racount;
+wire[7 : 0] s_axi_hp1_fifo_ctrl_rcount;
+wire s_axi_hp1_fifo_ctrl_rdissuecapen;
+wire[5 : 0] s_axi_hp1_fifo_ctrl_wacount;
+wire[7 : 0] s_axi_hp1_fifo_ctrl_wcount;
+wire s_axi_hp1_fifo_ctrl_wrissuecapen;
+
+wire[31: 0] s_axi_hp1_araddr;
+wire[1 : 0] s_axi_hp1_arburst;
+wire[3 : 0] s_axi_hp1_arcache;
+wire[5 : 0] s_axi_hp1_arid;
+wire[3 : 0] s_axi_hp1_arlen;
+wire[1 : 0] s_axi_hp1_arlock;
+wire[2 : 0] s_axi_hp1_arprot;
+wire[3 : 0] s_axi_hp1_arqos;
+wire s_axi_hp1_arready;
+wire[2 : 0]s_axi_hp1_arsize;
+wire s_axi_hp1_arvalid;
+wire[31: 0] s_axi_hp1_awaddr;
+wire[1 : 0] s_axi_hp1_awburst;
+wire[3 : 0] s_axi_hp1_awcache;
+wire[5 : 0] s_axi_hp1_awid;
+wire[3 : 0] s_axi_hp1_awlen;
+wire[1 : 0] s_axi_hp1_awlock;
+wire[2 : 0] s_axi_hp1_awprot;
+wire[3 : 0] s_axi_hp1_awqos;
+wire s_axi_hp1_awready;
+wire[2 : 0] s_axi_hp1_awsize;
+wire s_axi_hp1_awvalid;
+wire[5 : 0] s_axi_hp1_bid;
+wire s_axi_hp1_bready;
+wire[1 : 0] s_axi_hp1_bresp;
+wire s_axi_hp1_bvalid;
+wire[63: 0] s_axi_hp1_rdata;
+wire[5 : 0] s_axi_hp1_rid;
+wire s_axi_hp1_rlast;
+wire s_axi_hp1_rready;
+wire[1 : 0] s_axi_hp1_rresp;
+wire s_axi_hp1_rvalid;
+wire[63: 0] s_axi_hp1_wdata;
+wire[5 : 0] s_axi_hp1_wid;
+wire s_axi_hp1_wlast;
+wire s_axi_hp1_wready;
+wire[7 : 0] s_axi_hp1_wstrb;
+wire s_axi_hp1_wvalid;
+
 /*************************************************************************************************************/
 /*****************************************  End Wire Declaration  ********************************************/
 /*************************************************************************************************************/
@@ -257,6 +315,7 @@ wire s_axi_hp0_wvalid;
 // Other : 
 //------------------------------------------------------------------------------
 ps_ipi_wrapper ps_ipi_wrapper_inst(
+.ref_clk( ref_clk),
 /********** ddr3 i/f  *************/
 .DDR_addr( ddr_addr),
 .DDR_ba( ddr_ba),
@@ -302,7 +361,9 @@ ps_ipi_wrapper ps_ipi_wrapper_inst(
 .M_AXI_wready( gp_m_axi_wready),
 .M_AXI_wstrb( gp_m_axi_wstrb),
 .M_AXI_wvalid( gp_m_axi_wvalid),
+
 /**********  *************/
+///////////////////////////////////////////////////////////////////
 .S_AXI_HP0_ACLK( s_axi_hp0_aclk),
 .S_AXI_HP0_FIFO_CTRL_racount( s_axi_hp0_fifo_ctrl_racount),
 .S_AXI_HP0_FIFO_CTRL_rcount( s_axi_hp0_fifo_ctrl_rcount),
@@ -310,7 +371,7 @@ ps_ipi_wrapper ps_ipi_wrapper_inst(
 .S_AXI_HP0_FIFO_CTRL_wacount( s_axi_hp0_fifo_ctrl_wacount),
 .S_AXI_HP0_FIFO_CTRL_wcount( s_axi_hp0_fifo_ctrl_wcount),
 .S_AXI_HP0_FIFO_CTRL_wrissuecapen( s_axi_hp0_fifo_ctrl_wrissuecapen),
-/**********  *************/
+///////////////////////////////////////////////////////////////////
 .S_AXI_HP0_araddr( s_axi_hp0_araddr),
 .S_AXI_HP0_arburst( s_axi_hp0_arburst),
 .S_AXI_HP0_arcache( s_axi_hp0_arcache),
@@ -349,6 +410,56 @@ ps_ipi_wrapper ps_ipi_wrapper_inst(
 .S_AXI_HP0_wready( s_axi_hp0_wready),
 .S_AXI_HP0_wstrb( s_axi_hp0_wstrb),
 .S_AXI_HP0_wvalid( s_axi_hp0_wvalid),
+
+/**********  *************/
+///////////////////////////////////////////////////////////////////
+.S_AXI_HP1_ACLK( s_axi_hp1_aclk),
+.S_AXI_HP1_FIFO_CTRL_racount( s_axi_hp1_fifo_ctrl_racount),
+.S_AXI_HP1_FIFO_CTRL_rcount( s_axi_hp1_fifo_ctrl_rcount),
+.S_AXI_HP1_FIFO_CTRL_rdissuecapen( s_axi_hp1_fifo_ctrl_rdissuecapen),
+.S_AXI_HP1_FIFO_CTRL_wacount( s_axi_hp1_fifo_ctrl_wacount),
+.S_AXI_HP1_FIFO_CTRL_wcount( s_axi_hp1_fifo_ctrl_wcount),
+.S_AXI_HP1_FIFO_CTRL_wrissuecapen( s_axi_hp1_fifo_ctrl_wrissuecapen),
+///////////////////////////////////////////////////////////////////
+.S_AXI_HP1_araddr( s_axi_hp1_araddr),
+.S_AXI_HP1_arburst( s_axi_hp1_arburst),
+.S_AXI_HP1_arcache( s_axi_hp1_arcache),
+.S_AXI_HP1_arid( s_axi_hp1_arid),
+.S_AXI_HP1_arlen( s_axi_hp1_arlen),
+.S_AXI_HP1_arlock( s_axi_hp1_arlock),
+.S_AXI_HP1_arprot( s_axi_hp1_arprot),
+.S_AXI_HP1_arqos( s_axi_hp1_arqos),
+.S_AXI_HP1_arready( s_axi_hp1_arready),
+.S_AXI_HP1_arsize( s_axi_hp1_arsize),
+.S_AXI_HP1_arvalid( s_axi_hp1_arvalid),
+.S_AXI_HP1_awaddr( s_axi_hp1_awaddr),
+.S_AXI_HP1_awburst( s_axi_hp1_awburst),
+.S_AXI_HP1_awcache( s_axi_hp1_awcache),
+.S_AXI_HP1_awid( s_axi_hp1_awid),
+.S_AXI_HP1_awlen( s_axi_hp1_awlen),
+.S_AXI_HP1_awlock( s_axi_hp1_awlock),
+.S_AXI_HP1_awprot( s_axi_hp1_awprot),
+.S_AXI_HP1_awqos( s_axi_hp1_awqos),
+.S_AXI_HP1_awready( s_axi_hp1_awready),
+.S_AXI_HP1_awsize( s_axi_hp1_awsize),
+.S_AXI_HP1_awvalid( s_axi_hp1_awvalid),
+.S_AXI_HP1_bid( s_axi_hp1_bid),
+.S_AXI_HP1_bready( s_axi_hp1_bready),
+.S_AXI_HP1_bresp( s_axi_hp1_bresp),
+.S_AXI_HP1_bvalid( s_axi_hp1_bvalid),
+.S_AXI_HP1_rdata( s_axi_hp1_rdata),
+.S_AXI_HP1_rid( s_axi_hp1_rid),
+.S_AXI_HP1_rlast( s_axi_hp1_rlast),
+.S_AXI_HP1_rready( s_axi_hp1_rready),
+.S_AXI_HP1_rresp( s_axi_hp1_rresp),
+.S_AXI_HP1_rvalid( s_axi_hp1_rvalid),
+.S_AXI_HP1_wdata( s_axi_hp1_wdata),
+.S_AXI_HP1_wid( s_axi_hp1_wid),
+.S_AXI_HP1_wlast( s_axi_hp1_wlast),
+.S_AXI_HP1_wready( s_axi_hp1_wready),
+.S_AXI_HP1_wstrb( s_axi_hp1_wstrb),
+.S_AXI_HP1_wvalid( s_axi_hp1_wvalid),
+
 /**********  *************/
 .sws_8bits_tri_i( sws_8bits_tri_i),
 .leds_8bits_tri_o( leds_8bits_tri_o)
@@ -421,6 +532,11 @@ image_path_wrap #(
 .TCQ( TCQ),
 .SIM( SIM))
 image_path_wrap_inst(
+.ref_clk( ref_clk),
+
+`ifdef test
+
+`else
 /******************** sensor i2c access interface ***************************/
 .mt9v034_i2c_scl_oen( mt9v034_i2c_scl_oen),
 .mt9v034_i2c_scl_o( mt9v034_i2c_scl_o),
@@ -434,6 +550,106 @@ image_path_wrap_inst(
 .dlck_n( dlck_n),
 .dlo_p( dlo_p),
 .dlo_n( dlo_n),
+
+`endif
+
+/**********  *************/
+.m_axi_hp0_aclk( s_axi_hp0_aclk),
+///////////////////////////////////////////////////////////////////
+.m_axi_hp0_fifo_ctrl_racount( s_axi_hp0_fifo_ctrl_racount),
+.m_axi_hp0_fifo_ctrl_rcount( s_axi_hp0_fifo_ctrl_rcount),
+.m_axi_hp0_fifo_ctrl_rdissuecapen( s_axi_hp0_fifo_ctrl_rdissuecapen),
+.m_axi_hp0_fifo_ctrl_wacount( s_axi_hp0_fifo_ctrl_wacount),
+.m_axi_hp0_fifo_ctrl_wcount( s_axi_hp0_fifo_ctrl_wcount),
+.m_axi_hp0_fifo_ctrl_wrissuecapen( s_axi_hp0_fifo_ctrl_wrissuecapen),
+///////////////////////////////////////////////////////////////////
+.m_axi_hp0_araddr( s_axi_hp0_araddr),
+.m_axi_hp0_arburst( s_axi_hp0_arburst),
+.m_axi_hp0_arcache( s_axi_hp0_arcache),
+.m_axi_hp0_arid( s_axi_hp0_arid),
+.m_axi_hp0_arlen( s_axi_hp0_arlen),
+.m_axi_hp0_arlock( s_axi_hp0_arlock),
+.m_axi_hp0_arprot( s_axi_hp0_arprot),
+.m_axi_hp0_arqos( s_axi_hp0_arqos),
+.m_axi_hp0_arready( s_axi_hp0_arready),
+.m_axi_hp0_arsize( s_axi_hp0_arsize),
+.m_axi_hp0_arvalid( s_axi_hp0_arvalid),
+.m_axi_hp0_awaddr( s_axi_hp0_awaddr),
+.m_axi_hp0_awburst( s_axi_hp0_awburst),
+.m_axi_hp0_awcache( s_axi_hp0_awcache),
+.m_axi_hp0_awid( s_axi_hp0_awid),
+.m_axi_hp0_awlen( s_axi_hp0_awlen),
+.m_axi_hp0_awlock( s_axi_hp0_awlock),
+.m_axi_hp0_awprot( s_axi_hp0_awprot),
+.m_axi_hp0_awqos( s_axi_hp0_awqos),
+.m_axi_hp0_awready( s_axi_hp0_awready),
+.m_axi_hp0_awsize( s_axi_hp0_awsize),
+.m_axi_hp0_awvalid( s_axi_hp0_awvalid),
+.m_axi_hp0_bid( s_axi_hp0_bid),
+.m_axi_hp0_bready( s_axi_hp0_bready),
+.m_axi_hp0_bresp( s_axi_hp0_bresp),
+.m_axi_hp0_bvalid( s_axi_hp0_bvalid),
+.m_axi_hp0_rdata( s_axi_hp0_rdata),
+.m_axi_hp0_rid( s_axi_hp0_rid),
+.m_axi_hp0_rlast( s_axi_hp0_rlast),
+.m_axi_hp0_rready( s_axi_hp0_rready),
+.m_axi_hp0_rresp( s_axi_hp0_rresp),
+.m_axi_hp0_rvalid( s_axi_hp0_rvalid),
+.m_axi_hp0_wdata( s_axi_hp0_wdata),
+.m_axi_hp0_wid( s_axi_hp0_wid),
+.m_axi_hp0_wlast( s_axi_hp0_wlast),
+.m_axi_hp0_wready( s_axi_hp0_wready),
+.m_axi_hp0_wstrb( s_axi_hp0_wstrb),
+.m_axi_hp0_wvalid( s_axi_hp0_wvalid),
+
+/**********  *************/
+.m_axi_hp1_aclk( s_axi_hp1_aclk),
+///////////////////////////////////////////////////////////////////
+.m_axi_hp1_fifo_ctrl_racount( s_axi_hp1_fifo_ctrl_racount),
+.m_axi_hp1_fifo_ctrl_rcount( s_axi_hp1_fifo_ctrl_rcount),
+.m_axi_hp1_fifo_ctrl_rdissuecapen( s_axi_hp1_fifo_ctrl_rdissuecapen),
+.m_axi_hp1_fifo_ctrl_wacount( s_axi_hp1_fifo_ctrl_wacount),
+.m_axi_hp1_fifo_ctrl_wcount( s_axi_hp1_fifo_ctrl_wcount),
+.m_axi_hp1_fifo_ctrl_wrissuecapen( s_axi_hp1_fifo_ctrl_wrissuecapen),
+///////////////////////////////////////////////////////////////////
+.m_axi_hp1_araddr( s_axi_hp1_araddr),
+.m_axi_hp1_arburst( s_axi_hp1_arburst),
+.m_axi_hp1_arcache( s_axi_hp1_arcache),
+.m_axi_hp1_arid( s_axi_hp1_arid),
+.m_axi_hp1_arlen( s_axi_hp1_arlen),
+.m_axi_hp1_arlock( s_axi_hp1_arlock),
+.m_axi_hp1_arprot( s_axi_hp1_arprot),
+.m_axi_hp1_arqos( s_axi_hp1_arqos),
+.m_axi_hp1_arready( s_axi_hp1_arready),
+.m_axi_hp1_arsize( s_axi_hp1_arsize),
+.m_axi_hp1_arvalid( s_axi_hp1_arvalid),
+.m_axi_hp1_awaddr( s_axi_hp1_awaddr),
+.m_axi_hp1_awburst( s_axi_hp1_awburst),
+.m_axi_hp1_awcache( s_axi_hp1_awcache),
+.m_axi_hp1_awid( s_axi_hp1_awid),
+.m_axi_hp1_awlen( s_axi_hp1_awlen),
+.m_axi_hp1_awlock( s_axi_hp1_awlock),
+.m_axi_hp1_awprot( s_axi_hp1_awprot),
+.m_axi_hp1_awqos( s_axi_hp1_awqos),
+.m_axi_hp1_awready( s_axi_hp1_awready),
+.m_axi_hp1_awsize( s_axi_hp1_awsize),
+.m_axi_hp1_awvalid( s_axi_hp1_awvalid),
+.m_axi_hp1_bid( s_axi_hp1_bid),
+.m_axi_hp1_bready( s_axi_hp1_bready),
+.m_axi_hp1_bresp( s_axi_hp1_bresp),
+.m_axi_hp1_bvalid( s_axi_hp1_bvalid),
+.m_axi_hp1_rdata( s_axi_hp1_rdata),
+.m_axi_hp1_rid( s_axi_hp1_rid),
+.m_axi_hp1_rlast( s_axi_hp1_rlast),
+.m_axi_hp1_rready( s_axi_hp1_rready),
+.m_axi_hp1_rresp( s_axi_hp1_rresp),
+.m_axi_hp1_rvalid( s_axi_hp1_rvalid),
+.m_axi_hp1_wdata( s_axi_hp1_wdata),
+.m_axi_hp1_wid( s_axi_hp1_wid),
+.m_axi_hp1_wlast( s_axi_hp1_wlast),
+.m_axi_hp1_wready( s_axi_hp1_wready),
+.m_axi_hp1_wstrb( s_axi_hp1_wstrb),
+.m_axi_hp1_wvalid( s_axi_hp1_wvalid),
 
 //////////////////////// axi lite bus interface ////////////////////////
 .s_axi_aclk( gp_m_axi_aclk), // input wire s_aclk
@@ -499,6 +715,8 @@ ocm ocm_inst(
 );
 
 
+`ifdef test
+`else
 //------------------------------------------------------------------------------
 // NAME : 
 // TYPE : instance
@@ -528,7 +746,7 @@ shft_clkout_ibufgds_diff_out_inst(
 .I( shft_clkout_p),      // Diff_p buffer input (connect directly to top-level port)
 .IB( shft_clkout_n)    // Diff_n buffer input (connect directly to top-level port)
 );
-
+`endif
 /***********************************************************************************************************/
 /****************************************  End of instants Declaration  ************************************/
 /***********************************************************************************************************/
@@ -537,6 +755,19 @@ shft_clkout_ibufgds_diff_out_inst(
 /*************************************************************************************************************/
 /*********************************  Start Design RTL Description  ********************************************/
 /*************************************************************************************************************/
+//------------------------------------------------------------------------------
+// NAME : 
+// TYPE : assignment
+// -----------------------------------------------------------------------------
+// PURPOSE : for test
+// -----------------------------------------------------------------------------
+// Other : 
+//------------------------------------------------------------------------------
+//assign mt9v034_i2c_scl = mt9v034_i2c_scl_oen ? 1'Bz : mt9v034_i2c_scl_o;
+//assign mt9v034_i2c_scl_i = mt9v034_i2c_scl;
+//assign mt9v034_i2c_sda = mt9v034_i2c_sda_oen ? 1'Bz : mt9v034_i2c_sda_o;
+//assign mt9v034_i2c_sda_i = mt9v034_i2c_sda;
+
 //------------------------------------------------------------------------------
 // NAME : 
 // TYPE : assignment
