@@ -1,7 +1,7 @@
 //Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2016.1 (win64) Build 1538259 Fri Apr  8 15:45:27 MDT 2016
-//Date        : Fri Jun 03 12:29:38 2016
+//Date        : Mon Jun 06 15:59:42 2016
 //Host        : craig-WS running 64-bit major release  (build 9200)
 //Command     : generate_target ps_ipi_wrapper.bd
 //Design      : ps_ipi_wrapper
@@ -50,7 +50,6 @@ module ps_ipi_wrapper
     M_AXI_wready,
     M_AXI_wstrb,
     M_AXI_wvalid,
-    S_AXI_HP0_ACLK,
     S_AXI_HP0_FIFO_CTRL_racount,
     S_AXI_HP0_FIFO_CTRL_rcount,
     S_AXI_HP0_FIFO_CTRL_rdissuecapen,
@@ -95,7 +94,6 @@ module ps_ipi_wrapper
     S_AXI_HP0_wready,
     S_AXI_HP0_wstrb,
     S_AXI_HP0_wvalid,
-    S_AXI_HP1_ACLK,
     S_AXI_HP1_FIFO_CTRL_racount,
     S_AXI_HP1_FIFO_CTRL_rcount,
     S_AXI_HP1_FIFO_CTRL_rdissuecapen,
@@ -140,6 +138,7 @@ module ps_ipi_wrapper
     S_AXI_HP1_wready,
     S_AXI_HP1_wstrb,
     S_AXI_HP1_wvalid,
+    S_AXI_HP_ACLK,
     leds_8bits_tri_o,
     m_axi_aclk,
     m_axi_aresetn,
@@ -185,7 +184,6 @@ module ps_ipi_wrapper
   input M_AXI_wready;
   output [3:0]M_AXI_wstrb;
   output M_AXI_wvalid;
-  input S_AXI_HP0_ACLK;
   output [2:0]S_AXI_HP0_FIFO_CTRL_racount;
   output [7:0]S_AXI_HP0_FIFO_CTRL_rcount;
   input S_AXI_HP0_FIFO_CTRL_rdissuecapen;
@@ -230,7 +228,6 @@ module ps_ipi_wrapper
   output S_AXI_HP0_wready;
   input [7:0]S_AXI_HP0_wstrb;
   input S_AXI_HP0_wvalid;
-  input S_AXI_HP1_ACLK;
   output [2:0]S_AXI_HP1_FIFO_CTRL_racount;
   output [7:0]S_AXI_HP1_FIFO_CTRL_rcount;
   input S_AXI_HP1_FIFO_CTRL_rdissuecapen;
@@ -275,6 +272,7 @@ module ps_ipi_wrapper
   output S_AXI_HP1_wready;
   input [7:0]S_AXI_HP1_wstrb;
   input S_AXI_HP1_wvalid;
+  output S_AXI_HP_ACLK;
   output [7:0]leds_8bits_tri_o;
   output m_axi_aclk;
   output [0:0]m_axi_aresetn;
@@ -321,7 +319,6 @@ module ps_ipi_wrapper
   wire M_AXI_wready;
   wire [3:0]M_AXI_wstrb;
   wire M_AXI_wvalid;
-  wire S_AXI_HP0_ACLK;
   wire [2:0]S_AXI_HP0_FIFO_CTRL_racount;
   wire [7:0]S_AXI_HP0_FIFO_CTRL_rcount;
   wire S_AXI_HP0_FIFO_CTRL_rdissuecapen;
@@ -366,7 +363,6 @@ module ps_ipi_wrapper
   wire S_AXI_HP0_wready;
   wire [7:0]S_AXI_HP0_wstrb;
   wire S_AXI_HP0_wvalid;
-  wire S_AXI_HP1_ACLK;
   wire [2:0]S_AXI_HP1_FIFO_CTRL_racount;
   wire [7:0]S_AXI_HP1_FIFO_CTRL_rcount;
   wire S_AXI_HP1_FIFO_CTRL_rdissuecapen;
@@ -411,6 +407,7 @@ module ps_ipi_wrapper
   wire S_AXI_HP1_wready;
   wire [7:0]S_AXI_HP1_wstrb;
   wire S_AXI_HP1_wvalid;
+  wire S_AXI_HP_ACLK;
   wire [7:0]leds_8bits_tri_o;
   wire m_axi_aclk;
   wire [0:0]m_axi_aresetn;
@@ -460,7 +457,6 @@ module ps_ipi_wrapper
         .M_AXI_wstrb(M_AXI_wstrb),
         .M_AXI_wvalid(M_AXI_wvalid),
         .SWs_8Bits_tri_i(sws_8bits_tri_i),
-        .S_AXI_HP0_ACLK(S_AXI_HP0_ACLK),
         .S_AXI_HP0_FIFO_CTRL_racount(S_AXI_HP0_FIFO_CTRL_racount),
         .S_AXI_HP0_FIFO_CTRL_rcount(S_AXI_HP0_FIFO_CTRL_rcount),
         .S_AXI_HP0_FIFO_CTRL_rdissuecapen(S_AXI_HP0_FIFO_CTRL_rdissuecapen),
@@ -505,7 +501,6 @@ module ps_ipi_wrapper
         .S_AXI_HP0_wready(S_AXI_HP0_wready),
         .S_AXI_HP0_wstrb(S_AXI_HP0_wstrb),
         .S_AXI_HP0_wvalid(S_AXI_HP0_wvalid),
-        .S_AXI_HP1_ACLK(S_AXI_HP1_ACLK),
         .S_AXI_HP1_FIFO_CTRL_racount(S_AXI_HP1_FIFO_CTRL_racount),
         .S_AXI_HP1_FIFO_CTRL_rcount(S_AXI_HP1_FIFO_CTRL_rcount),
         .S_AXI_HP1_FIFO_CTRL_rdissuecapen(S_AXI_HP1_FIFO_CTRL_rdissuecapen),
@@ -550,6 +545,7 @@ module ps_ipi_wrapper
         .S_AXI_HP1_wready(S_AXI_HP1_wready),
         .S_AXI_HP1_wstrb(S_AXI_HP1_wstrb),
         .S_AXI_HP1_wvalid(S_AXI_HP1_wvalid),
+        .S_AXI_HP_ACLK(S_AXI_HP_ACLK),
         .m_axi_aclk(m_axi_aclk),
         .m_axi_aresetn(m_axi_aresetn),
         .ref_clk(ref_clk));

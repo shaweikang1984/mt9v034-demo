@@ -1,7 +1,7 @@
 //Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2016.1 (win64) Build 1538259 Fri Apr  8 15:45:27 MDT 2016
-//Date        : Fri Jun 03 12:29:37 2016
+//Date        : Mon Jun 06 15:59:42 2016
 //Host        : craig-WS running 64-bit major release  (build 9200)
 //Command     : generate_target ps_ipi.bd
 //Design      : ps_ipi
@@ -53,7 +53,6 @@ module ps_ipi
     M_AXI_wstrb,
     M_AXI_wvalid,
     SWs_8Bits_tri_i,
-    S_AXI_HP0_ACLK,
     S_AXI_HP0_FIFO_CTRL_racount,
     S_AXI_HP0_FIFO_CTRL_rcount,
     S_AXI_HP0_FIFO_CTRL_rdissuecapen,
@@ -98,7 +97,6 @@ module ps_ipi
     S_AXI_HP0_wready,
     S_AXI_HP0_wstrb,
     S_AXI_HP0_wvalid,
-    S_AXI_HP1_ACLK,
     S_AXI_HP1_FIFO_CTRL_racount,
     S_AXI_HP1_FIFO_CTRL_rcount,
     S_AXI_HP1_FIFO_CTRL_rdissuecapen,
@@ -143,6 +141,7 @@ module ps_ipi
     S_AXI_HP1_wready,
     S_AXI_HP1_wstrb,
     S_AXI_HP1_wvalid,
+    S_AXI_HP_ACLK,
     m_axi_aclk,
     m_axi_aresetn,
     ref_clk);
@@ -188,7 +187,6 @@ module ps_ipi
   output [3:0]M_AXI_wstrb;
   output M_AXI_wvalid;
   input [7:0]SWs_8Bits_tri_i;
-  input S_AXI_HP0_ACLK;
   output [2:0]S_AXI_HP0_FIFO_CTRL_racount;
   output [7:0]S_AXI_HP0_FIFO_CTRL_rcount;
   input S_AXI_HP0_FIFO_CTRL_rdissuecapen;
@@ -233,7 +231,6 @@ module ps_ipi
   output S_AXI_HP0_wready;
   input [7:0]S_AXI_HP0_wstrb;
   input S_AXI_HP0_wvalid;
-  input S_AXI_HP1_ACLK;
   output [2:0]S_AXI_HP1_FIFO_CTRL_racount;
   output [7:0]S_AXI_HP1_FIFO_CTRL_rcount;
   input S_AXI_HP1_FIFO_CTRL_rdissuecapen;
@@ -278,6 +275,7 @@ module ps_ipi
   output S_AXI_HP1_wready;
   input [7:0]S_AXI_HP1_wstrb;
   input S_AXI_HP1_wvalid;
+  output S_AXI_HP_ACLK;
   output m_axi_aclk;
   output [0:0]m_axi_aresetn;
   output ref_clk;
@@ -358,7 +356,6 @@ module ps_ipi
   wire S_AXI_HP0_1_WREADY;
   wire [7:0]S_AXI_HP0_1_WSTRB;
   wire S_AXI_HP0_1_WVALID;
-  wire S_AXI_HP0_ACLK_1;
   wire [2:0]S_AXI_HP0_FIFO_CTRL_1_RACOUNT;
   wire [7:0]S_AXI_HP0_FIFO_CTRL_1_RCOUNT;
   wire S_AXI_HP0_FIFO_CTRL_1_RDISSUECAPEN;
@@ -403,7 +400,6 @@ module ps_ipi
   wire S_AXI_HP1_1_WREADY;
   wire [7:0]S_AXI_HP1_1_WSTRB;
   wire S_AXI_HP1_1_WVALID;
-  wire S_AXI_HP1_ACLK_1;
   wire [2:0]S_AXI_HP1_FIFO_CTRL_1_RACOUNT;
   wire [7:0]S_AXI_HP1_FIFO_CTRL_1_RCOUNT;
   wire S_AXI_HP1_FIFO_CTRL_1_RDISSUECAPEN;
@@ -465,6 +461,7 @@ module ps_ipi
   wire processing_system7_0_DDR_WE_N;
   wire processing_system7_0_FCLK_CLK0;
   wire processing_system7_0_FCLK_CLK1;
+  wire processing_system7_0_FCLK_CLK2;
   wire processing_system7_0_FCLK_RESET0_N;
   wire processing_system7_0_FIXED_IO_DDR_VRN;
   wire processing_system7_0_FIXED_IO_DDR_VRP;
@@ -552,7 +549,6 @@ module ps_ipi
   assign S_AXI_HP0_1_WLAST = S_AXI_HP0_wlast;
   assign S_AXI_HP0_1_WSTRB = S_AXI_HP0_wstrb[7:0];
   assign S_AXI_HP0_1_WVALID = S_AXI_HP0_wvalid;
-  assign S_AXI_HP0_ACLK_1 = S_AXI_HP0_ACLK;
   assign S_AXI_HP0_FIFO_CTRL_1_RDISSUECAPEN = S_AXI_HP0_FIFO_CTRL_rdissuecapen;
   assign S_AXI_HP0_FIFO_CTRL_1_WRISSUECAPEN = S_AXI_HP0_FIFO_CTRL_wrissuecapen;
   assign S_AXI_HP0_FIFO_CTRL_racount[2:0] = S_AXI_HP0_FIFO_CTRL_1_RACOUNT;
@@ -597,7 +593,6 @@ module ps_ipi
   assign S_AXI_HP1_1_WLAST = S_AXI_HP1_wlast;
   assign S_AXI_HP1_1_WSTRB = S_AXI_HP1_wstrb[7:0];
   assign S_AXI_HP1_1_WVALID = S_AXI_HP1_wvalid;
-  assign S_AXI_HP1_ACLK_1 = S_AXI_HP1_ACLK;
   assign S_AXI_HP1_FIFO_CTRL_1_RDISSUECAPEN = S_AXI_HP1_FIFO_CTRL_rdissuecapen;
   assign S_AXI_HP1_FIFO_CTRL_1_WRISSUECAPEN = S_AXI_HP1_FIFO_CTRL_wrissuecapen;
   assign S_AXI_HP1_FIFO_CTRL_racount[2:0] = S_AXI_HP1_FIFO_CTRL_1_RACOUNT;
@@ -615,6 +610,7 @@ module ps_ipi
   assign S_AXI_HP1_rresp[1:0] = S_AXI_HP1_1_RRESP;
   assign S_AXI_HP1_rvalid = S_AXI_HP1_1_RVALID;
   assign S_AXI_HP1_wready = S_AXI_HP1_1_WREADY;
+  assign S_AXI_HP_ACLK = processing_system7_0_FCLK_CLK1;
   assign axi_gpio_0_GPIO2_TRI_I = SWs_8Bits_tri_i[7:0];
   assign axi_protocol_converter_0_M_AXI_ARREADY = M_AXI_arready;
   assign axi_protocol_converter_0_M_AXI_AWREADY = M_AXI_awready;
@@ -626,7 +622,7 @@ module ps_ipi
   assign axi_protocol_converter_0_M_AXI_WREADY = M_AXI_wready;
   assign m_axi_aclk = processing_system7_0_FCLK_CLK0;
   assign m_axi_aresetn[0] = rst_processing_system7_0_100M_peripheral_aresetn;
-  assign ref_clk = processing_system7_0_FCLK_CLK1;
+  assign ref_clk = processing_system7_0_FCLK_CLK2;
   ps_ipi_axi_gpio_0_0 axi_gpio_0
        (.gpio2_io_i(axi_gpio_0_GPIO2_TRI_I),
         .gpio_io_o(axi_gpio_0_GPIO_TRI_O),
@@ -791,6 +787,7 @@ module ps_ipi
         .DDR_WEB(DDR_we_n),
         .FCLK_CLK0(processing_system7_0_FCLK_CLK0),
         .FCLK_CLK1(processing_system7_0_FCLK_CLK1),
+        .FCLK_CLK2(processing_system7_0_FCLK_CLK2),
         .FCLK_RESET0_N(processing_system7_0_FCLK_RESET0_N),
         .MIO(FIXED_IO_mio[53:0]),
         .M_AXI_GP0_ACLK(processing_system7_0_FCLK_CLK0),
@@ -874,7 +871,7 @@ module ps_ipi
         .PS_CLK(FIXED_IO_ps_clk),
         .PS_PORB(FIXED_IO_ps_porb),
         .PS_SRSTB(FIXED_IO_ps_srstb),
-        .S_AXI_HP0_ACLK(S_AXI_HP0_ACLK_1),
+        .S_AXI_HP0_ACLK(processing_system7_0_FCLK_CLK1),
         .S_AXI_HP0_ARADDR(S_AXI_HP0_1_ARADDR),
         .S_AXI_HP0_ARBURST(S_AXI_HP0_1_ARBURST),
         .S_AXI_HP0_ARCACHE(S_AXI_HP0_1_ARCACHE),
@@ -919,7 +916,7 @@ module ps_ipi
         .S_AXI_HP0_WRISSUECAP1_EN(S_AXI_HP0_FIFO_CTRL_1_WRISSUECAPEN),
         .S_AXI_HP0_WSTRB(S_AXI_HP0_1_WSTRB),
         .S_AXI_HP0_WVALID(S_AXI_HP0_1_WVALID),
-        .S_AXI_HP1_ACLK(S_AXI_HP1_ACLK_1),
+        .S_AXI_HP1_ACLK(processing_system7_0_FCLK_CLK1),
         .S_AXI_HP1_ARADDR(S_AXI_HP1_1_ARADDR),
         .S_AXI_HP1_ARBURST(S_AXI_HP1_1_ARBURST),
         .S_AXI_HP1_ARCACHE(S_AXI_HP1_1_ARCACHE),

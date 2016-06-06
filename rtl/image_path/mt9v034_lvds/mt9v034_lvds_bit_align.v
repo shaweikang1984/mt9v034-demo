@@ -83,6 +83,7 @@ reg[17: 0] dlo_dd = 18'D0;
 
 reg[17: 0] align_shift = 18'D1;
 
+(* fsm_encoding = "one-hot" *)
 reg[5 : 0] align_cs = 6'B00_0001;
 reg[5 : 0] align_ns;
 

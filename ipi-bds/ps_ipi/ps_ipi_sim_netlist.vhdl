@@ -1,7 +1,7 @@
 -- Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2016.1 (win64) Build 1538259 Fri Apr  8 15:45:27 MDT 2016
--- Date        : Fri Jun 03 12:32:01 2016
+-- Date        : Mon Jun 06 16:01:56 2016
 -- Host        : craig-WS running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode funcsim E:/work/mt9v034_demo/ipi-bds/ps_ipi/ps_ipi_sim_netlist.vhdl
 -- Design      : ps_ipi
@@ -15770,7 +15770,7 @@ entity ps_ipi_processing_system7_v5_5_processing_system7 is
   attribute C_FCLK_CLK1_BUF : string;
   attribute C_FCLK_CLK1_BUF of ps_ipi_processing_system7_v5_5_processing_system7 : entity is "true";
   attribute C_FCLK_CLK2_BUF : string;
-  attribute C_FCLK_CLK2_BUF of ps_ipi_processing_system7_v5_5_processing_system7 : entity is "false";
+  attribute C_FCLK_CLK2_BUF of ps_ipi_processing_system7_v5_5_processing_system7 : entity is "true";
   attribute C_FCLK_CLK3_BUF : string;
   attribute C_FCLK_CLK3_BUF of ps_ipi_processing_system7_v5_5_processing_system7 : entity is "false";
   attribute C_INCLUDE_ACP_TRANS_CHECK : integer;
@@ -15869,7 +15869,7 @@ architecture STRUCTURE of ps_ipi_processing_system7_v5_5_processing_system7 is
   signal \<const0>\ : STD_LOGIC;
   signal ENET0_MDIO_T_n : STD_LOGIC;
   signal ENET1_MDIO_T_n : STD_LOGIC;
-  signal FCLK_CLK_unbuffered : STD_LOGIC_VECTOR ( 1 downto 0 );
+  signal FCLK_CLK_unbuffered : STD_LOGIC_VECTOR ( 2 downto 0 );
   signal I2C0_SCL_T_n : STD_LOGIC;
   signal I2C0_SDA_T_n : STD_LOGIC;
   signal I2C1_SCL_T_n : STD_LOGIC;
@@ -15940,6 +15940,7 @@ architecture STRUCTURE of ps_ipi_processing_system7_v5_5_processing_system7 is
   attribute box_type of PS_SRSTB_BIBUF : label is "PRIMITIVE";
   attribute box_type of \buffer_fclk_clk_0.FCLK_CLK_0_BUFG\ : label is "PRIMITIVE";
   attribute box_type of \buffer_fclk_clk_1.FCLK_CLK_1_BUFG\ : label is "PRIMITIVE";
+  attribute box_type of \buffer_fclk_clk_2.FCLK_CLK_2_BUFG\ : label is "PRIMITIVE";
   attribute box_type of \genblk13[0].MIO_BIBUF\ : label is "PRIMITIVE";
   attribute box_type of \genblk13[10].MIO_BIBUF\ : label is "PRIMITIVE";
   attribute box_type of \genblk13[11].MIO_BIBUF\ : label is "PRIMITIVE";
@@ -16938,8 +16939,7 @@ PS7_i: unisim.vcomponents.PS7
       EVENTSTANDBYWFE(1 downto 0) => EVENT_STANDBYWFE(1 downto 0),
       EVENTSTANDBYWFI(1 downto 0) => EVENT_STANDBYWFI(1 downto 0),
       FCLKCLK(3) => FCLK_CLK3,
-      FCLKCLK(2) => FCLK_CLK2,
-      FCLKCLK(1 downto 0) => FCLK_CLK_unbuffered(1 downto 0),
+      FCLKCLK(2 downto 0) => FCLK_CLK_unbuffered(2 downto 0),
       FCLKCLKTRIGN(3 downto 0) => B"0000",
       FCLKRESETN(3) => FCLK_RESET3_N,
       FCLKRESETN(2) => FCLK_RESET2_N,
@@ -17562,6 +17562,11 @@ SPI1_SS_T_INST_0: unisim.vcomponents.LUT1
      port map (
       I => FCLK_CLK_unbuffered(1),
       O => FCLK_CLK1
+    );
+\buffer_fclk_clk_2.FCLK_CLK_2_BUFG\: unisim.vcomponents.BUFG
+     port map (
+      I => FCLK_CLK_unbuffered(2),
+      O => FCLK_CLK2
     );
 \genblk13[0].MIO_BIBUF\: unisim.vcomponents.BIBUF
      port map (
@@ -20732,6 +20737,7 @@ entity ps_ipi_ps_ipi_processing_system7_0_0 is
     S_AXI_HP1_WSTRB : in STD_LOGIC_VECTOR ( 7 downto 0 );
     FCLK_CLK0 : out STD_LOGIC;
     FCLK_CLK1 : out STD_LOGIC;
+    FCLK_CLK2 : out STD_LOGIC;
     FCLK_RESET0_N : out STD_LOGIC;
     MIO : inout STD_LOGIC_VECTOR ( 53 downto 0 );
     DDR_CAS_n : inout STD_LOGIC;
@@ -20811,7 +20817,6 @@ architecture STRUCTURE of ps_ipi_ps_ipi_processing_system7_0_0 is
   signal NLW_inst_ENET1_SOF_RX_UNCONNECTED : STD_LOGIC;
   signal NLW_inst_ENET1_SOF_TX_UNCONNECTED : STD_LOGIC;
   signal NLW_inst_EVENT_EVENTO_UNCONNECTED : STD_LOGIC;
-  signal NLW_inst_FCLK_CLK2_UNCONNECTED : STD_LOGIC;
   signal NLW_inst_FCLK_CLK3_UNCONNECTED : STD_LOGIC;
   signal NLW_inst_FCLK_RESET1_N_UNCONNECTED : STD_LOGIC;
   signal NLW_inst_FCLK_RESET2_N_UNCONNECTED : STD_LOGIC;
@@ -21017,7 +21022,7 @@ architecture STRUCTURE of ps_ipi_ps_ipi_processing_system7_0_0 is
   attribute C_FCLK_CLK1_BUF : string;
   attribute C_FCLK_CLK1_BUF of inst : label is "true";
   attribute C_FCLK_CLK2_BUF : string;
-  attribute C_FCLK_CLK2_BUF of inst : label is "false";
+  attribute C_FCLK_CLK2_BUF of inst : label is "true";
   attribute C_FCLK_CLK3_BUF : string;
   attribute C_FCLK_CLK3_BUF of inst : label is "false";
   attribute C_INCLUDE_ACP_TRANS_CHECK : integer;
@@ -21229,7 +21234,7 @@ inst: entity work.ps_ipi_processing_system7_v5_5_processing_system7
       EVENT_STANDBYWFI(1 downto 0) => NLW_inst_EVENT_STANDBYWFI_UNCONNECTED(1 downto 0),
       FCLK_CLK0 => FCLK_CLK0,
       FCLK_CLK1 => FCLK_CLK1,
-      FCLK_CLK2 => NLW_inst_FCLK_CLK2_UNCONNECTED,
+      FCLK_CLK2 => FCLK_CLK2,
       FCLK_CLK3 => NLW_inst_FCLK_CLK3_UNCONNECTED,
       FCLK_CLKTRIG0_N => '0',
       FCLK_CLKTRIG1_N => '0',
@@ -25616,7 +25621,6 @@ entity ps_ipi is
     M_AXI_wstrb : out STD_LOGIC_VECTOR ( 3 downto 0 );
     M_AXI_wvalid : out STD_LOGIC;
     SWs_8Bits_tri_i : in STD_LOGIC_VECTOR ( 7 downto 0 );
-    S_AXI_HP0_ACLK : in STD_LOGIC;
     S_AXI_HP0_FIFO_CTRL_racount : out STD_LOGIC_VECTOR ( 2 downto 0 );
     S_AXI_HP0_FIFO_CTRL_rcount : out STD_LOGIC_VECTOR ( 7 downto 0 );
     S_AXI_HP0_FIFO_CTRL_rdissuecapen : in STD_LOGIC;
@@ -25661,7 +25665,6 @@ entity ps_ipi is
     S_AXI_HP0_wready : out STD_LOGIC;
     S_AXI_HP0_wstrb : in STD_LOGIC_VECTOR ( 7 downto 0 );
     S_AXI_HP0_wvalid : in STD_LOGIC;
-    S_AXI_HP1_ACLK : in STD_LOGIC;
     S_AXI_HP1_FIFO_CTRL_racount : out STD_LOGIC_VECTOR ( 2 downto 0 );
     S_AXI_HP1_FIFO_CTRL_rcount : out STD_LOGIC_VECTOR ( 7 downto 0 );
     S_AXI_HP1_FIFO_CTRL_rdissuecapen : in STD_LOGIC;
@@ -25706,6 +25709,7 @@ entity ps_ipi is
     S_AXI_HP1_wready : out STD_LOGIC;
     S_AXI_HP1_wstrb : in STD_LOGIC_VECTOR ( 7 downto 0 );
     S_AXI_HP1_wvalid : in STD_LOGIC;
+    S_AXI_HP_ACLK : out STD_LOGIC;
     m_axi_aclk : out STD_LOGIC;
     m_axi_aresetn : out STD_LOGIC_VECTOR ( 0 to 0 );
     ref_clk : out STD_LOGIC
@@ -25755,6 +25759,7 @@ architecture STRUCTURE of ps_ipi is
   signal S00_AXI_1_WREADY : STD_LOGIC;
   signal S00_AXI_1_WSTRB : STD_LOGIC_VECTOR ( 3 downto 0 );
   signal S00_AXI_1_WVALID : STD_LOGIC;
+  signal \^s_axi_hp_aclk\ : STD_LOGIC;
   signal axi_interconnect_0_M00_AXI_ARADDR : STD_LOGIC_VECTOR ( 8 downto 0 );
   signal axi_interconnect_0_M00_AXI_ARREADY : STD_LOGIC;
   signal axi_interconnect_0_M00_AXI_ARVALID : STD_LOGIC;
@@ -25840,6 +25845,7 @@ architecture STRUCTURE of ps_ipi is
   attribute downgradeipidentifiedwarnings of rst_processing_system7_0_100M : label is "yes";
   attribute x_core_info of rst_processing_system7_0_100M : label is "proc_sys_reset,Vivado 2016.1";
 begin
+  S_AXI_HP_ACLK <= \^s_axi_hp_aclk\;
   m_axi_aclk <= \^m_axi_aclk\;
   m_axi_aresetn(0) <= \^m_axi_aresetn\(0);
 axi_gpio_0: entity work.ps_ipi_ps_ipi_axi_gpio_0_0
@@ -26014,7 +26020,8 @@ processing_system7_0: entity work.ps_ipi_ps_ipi_processing_system7_0_0
       DDR_VRP => FIXED_IO_ddr_vrp,
       DDR_WEB => DDR_we_n,
       FCLK_CLK0 => \^m_axi_aclk\,
-      FCLK_CLK1 => ref_clk,
+      FCLK_CLK1 => \^s_axi_hp_aclk\,
+      FCLK_CLK2 => ref_clk,
       FCLK_RESET0_N => processing_system7_0_FCLK_RESET0_N,
       MIO(53 downto 0) => FIXED_IO_mio(53 downto 0),
       M_AXI_GP0_ACLK => \^m_axi_aclk\,
@@ -26098,7 +26105,7 @@ processing_system7_0: entity work.ps_ipi_ps_ipi_processing_system7_0_0
       PS_CLK => FIXED_IO_ps_clk,
       PS_PORB => FIXED_IO_ps_porb,
       PS_SRSTB => FIXED_IO_ps_srstb,
-      S_AXI_HP0_ACLK => S_AXI_HP0_ACLK,
+      S_AXI_HP0_ACLK => \^s_axi_hp_aclk\,
       S_AXI_HP0_ARADDR(31 downto 0) => S_AXI_HP0_araddr(31 downto 0),
       S_AXI_HP0_ARBURST(1 downto 0) => S_AXI_HP0_arburst(1 downto 0),
       S_AXI_HP0_ARCACHE(3 downto 0) => S_AXI_HP0_arcache(3 downto 0),
@@ -26143,7 +26150,7 @@ processing_system7_0: entity work.ps_ipi_ps_ipi_processing_system7_0_0
       S_AXI_HP0_WRISSUECAP1_EN => S_AXI_HP0_FIFO_CTRL_wrissuecapen,
       S_AXI_HP0_WSTRB(7 downto 0) => S_AXI_HP0_wstrb(7 downto 0),
       S_AXI_HP0_WVALID => S_AXI_HP0_wvalid,
-      S_AXI_HP1_ACLK => S_AXI_HP1_ACLK,
+      S_AXI_HP1_ACLK => \^s_axi_hp_aclk\,
       S_AXI_HP1_ARADDR(31 downto 0) => S_AXI_HP1_araddr(31 downto 0),
       S_AXI_HP1_ARBURST(1 downto 0) => S_AXI_HP1_arburst(1 downto 0),
       S_AXI_HP1_ARCACHE(3 downto 0) => S_AXI_HP1_arcache(3 downto 0),

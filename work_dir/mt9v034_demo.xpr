@@ -34,18 +34,60 @@
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="23"/>
-    <Option Name="WTModelSimExportSim" Val="23"/>
-    <Option Name="WTQuestaExportSim" Val="23"/>
-    <Option Name="WTIesExportSim" Val="23"/>
-    <Option Name="WTVcsExportSim" Val="23"/>
-    <Option Name="WTRivieraExportSim" Val="23"/>
-    <Option Name="WTActivehdlExportSim" Val="23"/>
+    <Option Name="WTXSimExportSim" Val="31"/>
+    <Option Name="WTModelSimExportSim" Val="31"/>
+    <Option Name="WTQuestaExportSim" Val="31"/>
+    <Option Name="WTIesExportSim" Val="31"/>
+    <Option Name="WTVcsExportSim" Val="31"/>
+    <Option Name="WTRivieraExportSim" Val="31"/>
+    <Option Name="WTActivehdlExportSim" Val="31"/>
     <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
   </Configuration>
   <FileSets Version="1" Minor="31">
     <FileSet Name="sources_1" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
       <Filter Type="Srcs"/>
+      <File Path="$PPRDIR/../ip/vdma_addr_pool.xcix">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../ip/vdma_addr_pool/vdma_addr_pool.xci">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../ip/vdma_dfifo.xcix">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../ip/vdma_dfifo/vdma_dfifo.xci">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../ip/int_fifo.xcix">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../ip/int_fifo/int_fifo.xci">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PPRDIR/../ip/axi_s2mm.xcix">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -63,6 +105,13 @@
       <File Path="$PPRDIR/../rtl/define.vh">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/image_path/image_dma/video2axis.v">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
@@ -256,22 +305,22 @@
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi.dcp"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_stub.v"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_stub.vhdl"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_sim_netlist.v"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_sim_netlist.vhdl"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_processing_system7_0_0/ps_ipi_processing_system7_0_0.xci"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_rst_processing_system7_0_100M_0/ps_ipi_rst_processing_system7_0_100M_0.xci"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_gpio_0_0/ps_ipi_axi_gpio_0_0.xci"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hdl/ps_ipi.v"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hdl/ps_ipi.hwdef"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hw_handoff/ps_ipi.hwh"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_ooc.xdc"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_auto_pc_0/ps_ipi_auto_pc_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_processing_system7_0_0/ps_ipi_processing_system7_0_0.xci"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_protocol_converter_0_0/ps_ipi_axi_protocol_converter_0_0.xci"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hw_handoff/ps_ipi_bd.tcl"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_interconnect_0_0/ps_ipi_axi_interconnect_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hdl/ps_ipi.v"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_rst_processing_system7_0_100M_0/ps_ipi_rst_processing_system7_0_100M_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hdl/ps_ipi.hwdef"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hw_handoff/ps_ipi_bd.tcl"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hw_handoff/ps_ipi.hwh"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_auto_pc_0/ps_ipi_auto_pc_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_sim_netlist.vhdl"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_stub.v"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_sim_netlist.v"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi.dcp"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_stub.vhdl"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_ooc.xdc"/>
       </File>
       <Config>
         <Option Name="TopModule" Val="ps_ipi"/>
@@ -322,7 +371,7 @@
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
     </Run>
-    <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg484-1" ConstrsSet="constrs_1" Description="Default settings for Implementation." State="current" Dir="$PRUNDIR/impl_1" SynthRun="synth_1" IncludeInArchive="true">
+    <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg484-1" ConstrsSet="constrs_1" Description="Default settings for Implementation." State="current" SynthRun="synth_1" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2016"/>
         <Step Id="init_design"/>
@@ -335,7 +384,6 @@
         <Step Id="post_route_phys_opt_design"/>
         <Step Id="write_bitstream"/>
       </Strategy>
-      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
     </Run>
     <Run Id="ps_ipi_impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg484-1" ConstrsSet="ps_ipi" Description="Default settings for Implementation." SynthRun="ps_ipi_synth_1" IncludeInArchive="false">
       <Strategy Version="1" Minor="2">

@@ -1,7 +1,7 @@
 -- Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2016.1 (win64) Build 1538259 Fri Apr  8 15:45:27 MDT 2016
--- Date        : Fri Jun 03 12:32:00 2016
+-- Date        : Mon Jun 06 16:01:56 2016
 -- Host        : craig-WS running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode synth_stub E:/work/mt9v034_demo/ipi-bds/ps_ipi/ps_ipi_stub.vhdl
 -- Design      : ps_ipi
@@ -55,7 +55,6 @@ entity ps_ipi is
     M_AXI_wstrb : out STD_LOGIC_VECTOR ( 3 downto 0 );
     M_AXI_wvalid : out STD_LOGIC;
     SWs_8Bits_tri_i : in STD_LOGIC_VECTOR ( 7 downto 0 );
-    S_AXI_HP0_ACLK : in STD_LOGIC;
     S_AXI_HP0_FIFO_CTRL_racount : out STD_LOGIC_VECTOR ( 2 downto 0 );
     S_AXI_HP0_FIFO_CTRL_rcount : out STD_LOGIC_VECTOR ( 7 downto 0 );
     S_AXI_HP0_FIFO_CTRL_rdissuecapen : in STD_LOGIC;
@@ -100,7 +99,6 @@ entity ps_ipi is
     S_AXI_HP0_wready : out STD_LOGIC;
     S_AXI_HP0_wstrb : in STD_LOGIC_VECTOR ( 7 downto 0 );
     S_AXI_HP0_wvalid : in STD_LOGIC;
-    S_AXI_HP1_ACLK : in STD_LOGIC;
     S_AXI_HP1_FIFO_CTRL_racount : out STD_LOGIC_VECTOR ( 2 downto 0 );
     S_AXI_HP1_FIFO_CTRL_rcount : out STD_LOGIC_VECTOR ( 7 downto 0 );
     S_AXI_HP1_FIFO_CTRL_rdissuecapen : in STD_LOGIC;
@@ -145,6 +143,7 @@ entity ps_ipi is
     S_AXI_HP1_wready : out STD_LOGIC;
     S_AXI_HP1_wstrb : in STD_LOGIC_VECTOR ( 7 downto 0 );
     S_AXI_HP1_wvalid : in STD_LOGIC;
+    S_AXI_HP_ACLK : out STD_LOGIC;
     m_axi_aclk : out STD_LOGIC;
     m_axi_aresetn : out STD_LOGIC_VECTOR ( 0 to 0 );
     ref_clk : out STD_LOGIC
@@ -156,6 +155,6 @@ architecture stub of ps_ipi is
 attribute syn_black_box : boolean;
 attribute black_box_pad_pin : string;
 attribute syn_black_box of stub : architecture is true;
-attribute black_box_pad_pin of stub : architecture is "DDR_addr[14:0],DDR_ba[2:0],DDR_cas_n,DDR_ck_n,DDR_ck_p,DDR_cke,DDR_cs_n,DDR_dm[3:0],DDR_dq[31:0],DDR_dqs_n[3:0],DDR_dqs_p[3:0],DDR_odt,DDR_ras_n,DDR_reset_n,DDR_we_n,FIXED_IO_ddr_vrn,FIXED_IO_ddr_vrp,FIXED_IO_mio[53:0],FIXED_IO_ps_clk,FIXED_IO_ps_porb,FIXED_IO_ps_srstb,LEDs_8Bits_tri_o[7:0],M_AXI_araddr[31:0],M_AXI_arprot[2:0],M_AXI_arready,M_AXI_arvalid,M_AXI_awaddr[31:0],M_AXI_awprot[2:0],M_AXI_awready,M_AXI_awvalid,M_AXI_bready,M_AXI_bresp[1:0],M_AXI_bvalid,M_AXI_rdata[31:0],M_AXI_rready,M_AXI_rresp[1:0],M_AXI_rvalid,M_AXI_wdata[31:0],M_AXI_wready,M_AXI_wstrb[3:0],M_AXI_wvalid,SWs_8Bits_tri_i[7:0],S_AXI_HP0_ACLK,S_AXI_HP0_FIFO_CTRL_racount[2:0],S_AXI_HP0_FIFO_CTRL_rcount[7:0],S_AXI_HP0_FIFO_CTRL_rdissuecapen,S_AXI_HP0_FIFO_CTRL_wacount[5:0],S_AXI_HP0_FIFO_CTRL_wcount[7:0],S_AXI_HP0_FIFO_CTRL_wrissuecapen,S_AXI_HP0_araddr[31:0],S_AXI_HP0_arburst[1:0],S_AXI_HP0_arcache[3:0],S_AXI_HP0_arid[5:0],S_AXI_HP0_arlen[3:0],S_AXI_HP0_arlock[1:0],S_AXI_HP0_arprot[2:0],S_AXI_HP0_arqos[3:0],S_AXI_HP0_arready,S_AXI_HP0_arsize[2:0],S_AXI_HP0_arvalid,S_AXI_HP0_awaddr[31:0],S_AXI_HP0_awburst[1:0],S_AXI_HP0_awcache[3:0],S_AXI_HP0_awid[5:0],S_AXI_HP0_awlen[3:0],S_AXI_HP0_awlock[1:0],S_AXI_HP0_awprot[2:0],S_AXI_HP0_awqos[3:0],S_AXI_HP0_awready,S_AXI_HP0_awsize[2:0],S_AXI_HP0_awvalid,S_AXI_HP0_bid[5:0],S_AXI_HP0_bready,S_AXI_HP0_bresp[1:0],S_AXI_HP0_bvalid,S_AXI_HP0_rdata[63:0],S_AXI_HP0_rid[5:0],S_AXI_HP0_rlast,S_AXI_HP0_rready,S_AXI_HP0_rresp[1:0],S_AXI_HP0_rvalid,S_AXI_HP0_wdata[63:0],S_AXI_HP0_wid[5:0],S_AXI_HP0_wlast,S_AXI_HP0_wready,S_AXI_HP0_wstrb[7:0],S_AXI_HP0_wvalid,S_AXI_HP1_ACLK,S_AXI_HP1_FIFO_CTRL_racount[2:0],S_AXI_HP1_FIFO_CTRL_rcount[7:0],S_AXI_HP1_FIFO_CTRL_rdissuecapen,S_AXI_HP1_FIFO_CTRL_wacount[5:0],S_AXI_HP1_FIFO_CTRL_wcount[7:0],S_AXI_HP1_FIFO_CTRL_wrissuecapen,S_AXI_HP1_araddr[31:0],S_AXI_HP1_arburst[1:0],S_AXI_HP1_arcache[3:0],S_AXI_HP1_arid[5:0],S_AXI_HP1_arlen[3:0],S_AXI_HP1_arlock[1:0],S_AXI_HP1_arprot[2:0],S_AXI_HP1_arqos[3:0],S_AXI_HP1_arready,S_AXI_HP1_arsize[2:0],S_AXI_HP1_arvalid,S_AXI_HP1_awaddr[31:0],S_AXI_HP1_awburst[1:0],S_AXI_HP1_awcache[3:0],S_AXI_HP1_awid[5:0],S_AXI_HP1_awlen[3:0],S_AXI_HP1_awlock[1:0],S_AXI_HP1_awprot[2:0],S_AXI_HP1_awqos[3:0],S_AXI_HP1_awready,S_AXI_HP1_awsize[2:0],S_AXI_HP1_awvalid,S_AXI_HP1_bid[5:0],S_AXI_HP1_bready,S_AXI_HP1_bresp[1:0],S_AXI_HP1_bvalid,S_AXI_HP1_rdata[63:0],S_AXI_HP1_rid[5:0],S_AXI_HP1_rlast,S_AXI_HP1_rready,S_AXI_HP1_rresp[1:0],S_AXI_HP1_rvalid,S_AXI_HP1_wdata[63:0],S_AXI_HP1_wid[5:0],S_AXI_HP1_wlast,S_AXI_HP1_wready,S_AXI_HP1_wstrb[7:0],S_AXI_HP1_wvalid,m_axi_aclk,m_axi_aresetn[0:0],ref_clk";
+attribute black_box_pad_pin of stub : architecture is "DDR_addr[14:0],DDR_ba[2:0],DDR_cas_n,DDR_ck_n,DDR_ck_p,DDR_cke,DDR_cs_n,DDR_dm[3:0],DDR_dq[31:0],DDR_dqs_n[3:0],DDR_dqs_p[3:0],DDR_odt,DDR_ras_n,DDR_reset_n,DDR_we_n,FIXED_IO_ddr_vrn,FIXED_IO_ddr_vrp,FIXED_IO_mio[53:0],FIXED_IO_ps_clk,FIXED_IO_ps_porb,FIXED_IO_ps_srstb,LEDs_8Bits_tri_o[7:0],M_AXI_araddr[31:0],M_AXI_arprot[2:0],M_AXI_arready,M_AXI_arvalid,M_AXI_awaddr[31:0],M_AXI_awprot[2:0],M_AXI_awready,M_AXI_awvalid,M_AXI_bready,M_AXI_bresp[1:0],M_AXI_bvalid,M_AXI_rdata[31:0],M_AXI_rready,M_AXI_rresp[1:0],M_AXI_rvalid,M_AXI_wdata[31:0],M_AXI_wready,M_AXI_wstrb[3:0],M_AXI_wvalid,SWs_8Bits_tri_i[7:0],S_AXI_HP0_FIFO_CTRL_racount[2:0],S_AXI_HP0_FIFO_CTRL_rcount[7:0],S_AXI_HP0_FIFO_CTRL_rdissuecapen,S_AXI_HP0_FIFO_CTRL_wacount[5:0],S_AXI_HP0_FIFO_CTRL_wcount[7:0],S_AXI_HP0_FIFO_CTRL_wrissuecapen,S_AXI_HP0_araddr[31:0],S_AXI_HP0_arburst[1:0],S_AXI_HP0_arcache[3:0],S_AXI_HP0_arid[5:0],S_AXI_HP0_arlen[3:0],S_AXI_HP0_arlock[1:0],S_AXI_HP0_arprot[2:0],S_AXI_HP0_arqos[3:0],S_AXI_HP0_arready,S_AXI_HP0_arsize[2:0],S_AXI_HP0_arvalid,S_AXI_HP0_awaddr[31:0],S_AXI_HP0_awburst[1:0],S_AXI_HP0_awcache[3:0],S_AXI_HP0_awid[5:0],S_AXI_HP0_awlen[3:0],S_AXI_HP0_awlock[1:0],S_AXI_HP0_awprot[2:0],S_AXI_HP0_awqos[3:0],S_AXI_HP0_awready,S_AXI_HP0_awsize[2:0],S_AXI_HP0_awvalid,S_AXI_HP0_bid[5:0],S_AXI_HP0_bready,S_AXI_HP0_bresp[1:0],S_AXI_HP0_bvalid,S_AXI_HP0_rdata[63:0],S_AXI_HP0_rid[5:0],S_AXI_HP0_rlast,S_AXI_HP0_rready,S_AXI_HP0_rresp[1:0],S_AXI_HP0_rvalid,S_AXI_HP0_wdata[63:0],S_AXI_HP0_wid[5:0],S_AXI_HP0_wlast,S_AXI_HP0_wready,S_AXI_HP0_wstrb[7:0],S_AXI_HP0_wvalid,S_AXI_HP1_FIFO_CTRL_racount[2:0],S_AXI_HP1_FIFO_CTRL_rcount[7:0],S_AXI_HP1_FIFO_CTRL_rdissuecapen,S_AXI_HP1_FIFO_CTRL_wacount[5:0],S_AXI_HP1_FIFO_CTRL_wcount[7:0],S_AXI_HP1_FIFO_CTRL_wrissuecapen,S_AXI_HP1_araddr[31:0],S_AXI_HP1_arburst[1:0],S_AXI_HP1_arcache[3:0],S_AXI_HP1_arid[5:0],S_AXI_HP1_arlen[3:0],S_AXI_HP1_arlock[1:0],S_AXI_HP1_arprot[2:0],S_AXI_HP1_arqos[3:0],S_AXI_HP1_arready,S_AXI_HP1_arsize[2:0],S_AXI_HP1_arvalid,S_AXI_HP1_awaddr[31:0],S_AXI_HP1_awburst[1:0],S_AXI_HP1_awcache[3:0],S_AXI_HP1_awid[5:0],S_AXI_HP1_awlen[3:0],S_AXI_HP1_awlock[1:0],S_AXI_HP1_awprot[2:0],S_AXI_HP1_awqos[3:0],S_AXI_HP1_awready,S_AXI_HP1_awsize[2:0],S_AXI_HP1_awvalid,S_AXI_HP1_bid[5:0],S_AXI_HP1_bready,S_AXI_HP1_bresp[1:0],S_AXI_HP1_bvalid,S_AXI_HP1_rdata[63:0],S_AXI_HP1_rid[5:0],S_AXI_HP1_rlast,S_AXI_HP1_rready,S_AXI_HP1_rresp[1:0],S_AXI_HP1_rvalid,S_AXI_HP1_wdata[63:0],S_AXI_HP1_wid[5:0],S_AXI_HP1_wlast,S_AXI_HP1_wready,S_AXI_HP1_wstrb[7:0],S_AXI_HP1_wvalid,S_AXI_HP_ACLK,m_axi_aclk,m_axi_aresetn[0:0],ref_clk";
 begin
 end;

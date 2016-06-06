@@ -88,19 +88,13 @@ wire ref_clk;
 
 `ifdef test
 `else
-/**********  *************/
-wire mt9v034_i2c_scl_oen;
-wire mt9v034_i2c_scl_o;
-wire mt9v034_i2c_scl_i;
-wire mt9v034_i2c_sda_oen;
-wire mt9v034_i2c_sda_o;
-wire mt9v034_i2c_sda_i;
 
 /**********  *************/
 wire dlck_p;
 wire dlck_n;
 wire dlo_p;
 wire dlo_n;
+
 `endif
 
 /**********  *************/
@@ -191,10 +185,9 @@ wire[1 : 0] m01_axi_rresp;
 wire m01_axi_rvalid;
 wire m01_axi_rready;
 
-
 /**********  *************/
-wire s_axi_hp0_aclk;
-
+wire s_axi_hp_aclk;
+/**********  *************/
 wire[2 : 0] s_axi_hp0_fifo_ctrl_racount;
 wire[7 : 0] s_axi_hp0_fifo_ctrl_rcount;
 wire s_axi_hp0_fifo_ctrl_rdissuecapen;
@@ -242,8 +235,6 @@ wire[7 : 0] s_axi_hp0_wstrb;
 wire s_axi_hp0_wvalid;
 
 /**********  *************/
-wire s_axi_hp1_aclk;
-
 wire[2 : 0] s_axi_hp1_fifo_ctrl_racount;
 wire[7 : 0] s_axi_hp1_fifo_ctrl_rcount;
 wire s_axi_hp1_fifo_ctrl_rdissuecapen;
@@ -363,8 +354,8 @@ ps_ipi_wrapper ps_ipi_wrapper_inst(
 .M_AXI_wvalid( gp_m_axi_wvalid),
 
 /**********  *************/
+.S_AXI_HP_ACLK( s_axi_hp_aclk),
 ///////////////////////////////////////////////////////////////////
-.S_AXI_HP0_ACLK( s_axi_hp0_aclk),
 .S_AXI_HP0_FIFO_CTRL_racount( s_axi_hp0_fifo_ctrl_racount),
 .S_AXI_HP0_FIFO_CTRL_rcount( s_axi_hp0_fifo_ctrl_rcount),
 .S_AXI_HP0_FIFO_CTRL_rdissuecapen( s_axi_hp0_fifo_ctrl_rdissuecapen),
@@ -411,9 +402,7 @@ ps_ipi_wrapper ps_ipi_wrapper_inst(
 .S_AXI_HP0_wstrb( s_axi_hp0_wstrb),
 .S_AXI_HP0_wvalid( s_axi_hp0_wvalid),
 
-/**********  *************/
 ///////////////////////////////////////////////////////////////////
-.S_AXI_HP1_ACLK( s_axi_hp1_aclk),
 .S_AXI_HP1_FIFO_CTRL_racount( s_axi_hp1_fifo_ctrl_racount),
 .S_AXI_HP1_FIFO_CTRL_rcount( s_axi_hp1_fifo_ctrl_rcount),
 .S_AXI_HP1_FIFO_CTRL_rdissuecapen( s_axi_hp1_fifo_ctrl_rdissuecapen),
@@ -537,14 +526,6 @@ image_path_wrap_inst(
 `ifdef test
 
 `else
-/******************** sensor i2c access interface ***************************/
-.mt9v034_i2c_scl_oen( mt9v034_i2c_scl_oen),
-.mt9v034_i2c_scl_o( mt9v034_i2c_scl_o),
-.mt9v034_i2c_scl_i( mt9v034_i2c_scl_i),
-.mt9v034_i2c_sda_oen( mt9v034_i2c_sda_oen),
-.mt9v034_i2c_sda_o( mt9v034_i2c_sda_o),
-.mt9v034_i2c_sda_i( mt9v034_i2c_sda_i),
-
 /************************ sensor lvds ssync interface ***********************/
 .dlck_p( dlck_p),
 .dlck_n( dlck_n),
@@ -554,7 +535,7 @@ image_path_wrap_inst(
 `endif
 
 /**********  *************/
-.m_axi_hp0_aclk( s_axi_hp0_aclk),
+.m_axi_hp_aclk( s_axi_hp_aclk),
 ///////////////////////////////////////////////////////////////////
 .m_axi_hp0_fifo_ctrl_racount( s_axi_hp0_fifo_ctrl_racount),
 .m_axi_hp0_fifo_ctrl_rcount( s_axi_hp0_fifo_ctrl_rcount),
@@ -602,8 +583,6 @@ image_path_wrap_inst(
 .m_axi_hp0_wstrb( s_axi_hp0_wstrb),
 .m_axi_hp0_wvalid( s_axi_hp0_wvalid),
 
-/**********  *************/
-.m_axi_hp1_aclk( s_axi_hp1_aclk),
 ///////////////////////////////////////////////////////////////////
 .m_axi_hp1_fifo_ctrl_racount( s_axi_hp1_fifo_ctrl_racount),
 .m_axi_hp1_fifo_ctrl_rcount( s_axi_hp1_fifo_ctrl_rcount),
@@ -755,18 +734,6 @@ shft_clkout_ibufgds_diff_out_inst(
 /*************************************************************************************************************/
 /*********************************  Start Design RTL Description  ********************************************/
 /*************************************************************************************************************/
-//------------------------------------------------------------------------------
-// NAME : 
-// TYPE : assignment
-// -----------------------------------------------------------------------------
-// PURPOSE : for test
-// -----------------------------------------------------------------------------
-// Other : 
-//------------------------------------------------------------------------------
-//assign mt9v034_i2c_scl = mt9v034_i2c_scl_oen ? 1'Bz : mt9v034_i2c_scl_o;
-//assign mt9v034_i2c_scl_i = mt9v034_i2c_scl;
-//assign mt9v034_i2c_sda = mt9v034_i2c_sda_oen ? 1'Bz : mt9v034_i2c_sda_o;
-//assign mt9v034_i2c_sda_i = mt9v034_i2c_sda;
 
 //------------------------------------------------------------------------------
 // NAME : 
@@ -776,41 +743,41 @@ shft_clkout_ibufgds_diff_out_inst(
 // -----------------------------------------------------------------------------
 // Other : 
 //------------------------------------------------------------------------------
-assign s_axi_hp0_aclk = gp_m_axi_aclk;
-
-assign s_axi_hp0_fifo_ctrl_rdissuecapen = 1'B0;
-assign s_axi_hp0_fifo_ctrl_wrissuecapen = 1'B0;
-
-assign s_axi_hp0_araddr = 32'D0;
-assign s_axi_hp0_arburst = 2'B00;
-assign s_axi_hp0_arcache = 4'H0;
-assign s_axi_hp0_arid = 6'D0;
-assign s_axi_hp0_arlen = 4'H0;
-assign s_axi_hp0_arlock = 2'B00;
-assign s_axi_hp0_arprot = 3'D0;
-assign s_axi_hp0_arqos = 4'H0;
-assign s_axi_hp0_arsize = 3'B000;
-assign s_axi_hp0_arvalid = 1'B0;
-
-assign s_axi_hp0_awaddr = 32'D0;
-assign s_axi_hp0_awburst = 2'B00;
-assign s_axi_hp0_awcache = 4'H0;
-assign s_axi_hp0_awid = 6'D0;
-assign s_axi_hp0_awlen = 4'H0;
-assign s_axi_hp0_awlock = 2'B00;
-assign s_axi_hp0_awprot = 3'D0;
-assign s_axi_hp0_awqos = 4'H0;
-assign s_axi_hp0_awsize = 3'B000;
-assign s_axi_hp0_awvalid = 1'B0;
-
-assign s_axi_hp0_bready = 1'B1;
-assign s_axi_hp0_rready = 1'B1;
-
-assign s_axi_hp0_wdata = 64'D0;
-assign s_axi_hp0_wid = 6'D0;
-assign s_axi_hp0_wlast = 1'B0;
-assign s_axi_hp0_wstrb = 8'D0;
-assign s_axi_hp0_wvalid = 1'B0;
+//assign s_axi_hp0_aclk = gp_m_axi_aclk;
+//
+//assign s_axi_hp0_fifo_ctrl_rdissuecapen = 1'B0;
+//assign s_axi_hp0_fifo_ctrl_wrissuecapen = 1'B0;
+//
+//assign s_axi_hp0_araddr = 32'D0;
+//assign s_axi_hp0_arburst = 2'B00;
+//assign s_axi_hp0_arcache = 4'H0;
+//assign s_axi_hp0_arid = 6'D0;
+//assign s_axi_hp0_arlen = 4'H0;
+//assign s_axi_hp0_arlock = 2'B00;
+//assign s_axi_hp0_arprot = 3'D0;
+//assign s_axi_hp0_arqos = 4'H0;
+//assign s_axi_hp0_arsize = 3'B000;
+//assign s_axi_hp0_arvalid = 1'B0;
+//
+//assign s_axi_hp0_awaddr = 32'D0;
+//assign s_axi_hp0_awburst = 2'B00;
+//assign s_axi_hp0_awcache = 4'H0;
+//assign s_axi_hp0_awid = 6'D0;
+//assign s_axi_hp0_awlen = 4'H0;
+//assign s_axi_hp0_awlock = 2'B00;
+//assign s_axi_hp0_awprot = 3'D0;
+//assign s_axi_hp0_awqos = 4'H0;
+//assign s_axi_hp0_awsize = 3'B000;
+//assign s_axi_hp0_awvalid = 1'B0;
+//
+//assign s_axi_hp0_bready = 1'B1;
+//assign s_axi_hp0_rready = 1'B1;
+//
+//assign s_axi_hp0_wdata = 64'D0;
+//assign s_axi_hp0_wid = 6'D0;
+//assign s_axi_hp0_wlast = 1'B0;
+//assign s_axi_hp0_wstrb = 8'D0;
+//assign s_axi_hp0_wvalid = 1'B0;
 
 
 /*************************************************************************************************************/

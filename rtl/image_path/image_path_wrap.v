@@ -32,13 +32,6 @@ input ref_clk,
 
 `ifdef test
 `else
-/******************** sensor i2c access interface ***************************/
-output mt9v034_i2c_scl_oen,
-output mt9v034_i2c_scl_o,
-input mt9v034_i2c_scl_i,
-output mt9v034_i2c_sda_oen,
-output mt9v034_i2c_sda_o,
-input mt9v034_i2c_sda_i,
 
 /************************ sensor lvds ssync interface ***********************/
 input dlck_p,
@@ -50,7 +43,7 @@ input dlo_n,
 `endif
 
 /**********  *************/
-output m_axi_hp0_aclk,
+input m_axi_hp_aclk,
 ///////////////////////////////////////////////////////////////////
 input [2:0]m_axi_hp0_fifo_ctrl_racount,
 input [7:0]m_axi_hp0_fifo_ctrl_rcount,
@@ -98,8 +91,6 @@ input m_axi_hp0_wready,
 output [7:0]m_axi_hp0_wstrb,
 output m_axi_hp0_wvalid,
 
-/**********  *************/
-output m_axi_hp1_aclk,
 ///////////////////////////////////////////////////////////////////
 input [2:0]m_axi_hp1_fifo_ctrl_racount,
 input [7:0]m_axi_hp1_fifo_ctrl_rcount,
@@ -183,12 +174,18 @@ genvar i;
 ///////////////////////////////// address assignment ////////////////////////////////////////
 localparam ADDR_SENSOR_DRIVER_INFO = 8'H00;
 localparam ADDR_IMG_PATH_RST = 8'H00;
-
+////////////////////////////////////////
 localparam ADDR_SENSOR_I2C_CTRL = 8'H01;
 localparam ADDR_SENSOR_I2C_DATA = 8'H02;
-
-
+////////////////////////////////////////
 localparam ADDR_LVDS_STAT = 8'H08;
+////////////////////////////////////////
+localparam ADDR_IM_DMA_CRTL = 8'He0;
+////////////////////////////////////////
+localparam ADDR_IM_DMA_ADDR_POOL_CRTL = 8'Hf0;
+localparam ADDR_IM_DMA_ADDR_POOL = 8'Hf1;
+////////////////////////////////////////
+localparam ADDR_IM_DMA_INT = 8'Hf8;
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -204,9 +201,6 @@ wire rst_i;
 wire reg_rst;
 wire reg_we;
 wire reg_re;
-
-wire[9 : 0] i2c_trans_dout;
-wire i2c_trans_done;
 
 wire mmcm_locked;
 wire align_err;
@@ -231,6 +225,10 @@ wire im_hsync_i;
 wire im_valid_i;
 (* MARK_DEBUG = "TRUE" *)
 wire[15: 0] im_dout_i;
+
+wire image_dma_int;
+wire[4 : 0] image_dma_int_cnt;
+
 /*************************************************************************************************************/
 /*****************************************  End Wire Declaration  ********************************************/
 /*************************************************************************************************************/
@@ -261,10 +259,13 @@ reg[31: 0] s_axi_rdata_d = 32'D0;
 reg im_rst = 1'B0;
 reg im_oe = 1'B0;
 
-reg i2c_trans_trg = 1'B0;
-reg[3 : 0] i2c_trans_bit_num = 4'D0;
-reg[10: 0] i2c_trans_din = 11'D0;
+reg dma_en = 1'B0;
+//////////////////////////////////////////////////////////////////////////////
+reg addr_pool_flush = 1'B0;
+reg addr_pool_push = 1'B0;
+reg[31: 0] addr_pool_din = 1'B0;
 
+reg image_dma_int_clr = 1'B0;
 /***********************************************************************************************************/
 /***************************************  End Registers Declaration  ***************************************/
 /***********************************************************************************************************/
@@ -302,34 +303,6 @@ test_image_gen_inst(
 );
 
 `else
-//------------------------------------------------------------------------------
-// NAME : 
-// TYPE : instance
-// -----------------------------------------------------------------------------
-// PURPOSE : 
-// -----------------------------------------------------------------------------
-// Other : 
-//------------------------------------------------------------------------------
-mt9v034_i2c_if #(
-.TCQ( TCQ),
-.SIM( SIM))
-mt9v034_i2c_if_inst(
-.rst( rst_i),
-.clk( s_axi_aclk),
-
-.trans_trg( i2c_trans_trg),
-.trans_bit_num( i2c_trans_bit_num),
-.trans_din( i2c_trans_din),
-.trans_dout( i2c_trans_dout),
-.trans_done( i2c_trans_done),
-
-.scl_oen( mt9v034_i2c_scl_oen),
-.scl_o( mt9v034_i2c_scl_o),
-.scl_i( mt9v034_i2c_scl_i),
-.sda_oen( mt9v034_i2c_sda_oen),
-.sda_o( mt9v034_i2c_sda_o),
-.sda_i( mt9v034_i2c_sda_i)
-);
 
 //------------------------------------------------------------------------------
 // NAME : 
@@ -377,6 +350,7 @@ image_dma #(
 image_dma_inst(
 .rst( im_rst),
 
+.dma_en( dma_en),
 /**********  *************/
 .im_pclk( im_pclk),
 .im_vsync( im_vsync_i),
@@ -385,7 +359,17 @@ image_dma_inst(
 .im_dout( im_dout_i),
 
 /**********  *************/
-.m_axi_hp0_aclk( m_axi_hp0_aclk),
+.addr_pool_clk( s_axi_aclk),
+.addr_pool_flush( addr_pool_flush),
+.addr_pool_push( addr_pool_push),
+.addr_pool_din( addr_pool_din),
+/**********  *************/
+.image_dma_int( image_dma_int),
+.image_dma_int_cnt( image_dma_int_cnt),
+.image_dma_int_clr( image_dma_int_clr),
+
+/**********  *************/
+.m_axi_hp_aclk( m_axi_hp_aclk),
 ///////////////////////////////////////////////////////////////////
 .m_axi_hp0_fifo_ctrl_racount( m_axi_hp0_fifo_ctrl_racount),
 .m_axi_hp0_fifo_ctrl_rcount( m_axi_hp0_fifo_ctrl_rcount),
@@ -433,8 +417,6 @@ image_dma_inst(
 .m_axi_hp0_wstrb( m_axi_hp0_wstrb),
 .m_axi_hp0_wvalid( m_axi_hp0_wvalid),
 
-/**********  *************/
-.m_axi_hp1_aclk( m_axi_hp1_aclk),
 ///////////////////////////////////////////////////////////////////
 .m_axi_hp1_fifo_ctrl_racount( m_axi_hp1_fifo_ctrl_racount),
 .m_axi_hp1_fifo_ctrl_rcount( m_axi_hp1_fifo_ctrl_rcount),
@@ -656,19 +638,16 @@ begin
     end
 end
 
-
+////////////////////////////////////////////  ////////////////////////////////////////////
 always @( posedge s_axi_aclk or posedge reg_rst)
 begin
     if( reg_rst) begin
-        i2c_trans_trg <= #TCQ 1'B0;
-        i2c_trans_bit_num <= #TCQ 4'D0;
+        dma_en <= #TCQ 1'B0;
     end else begin
-        if( reg_we & ( s_axi_awaddr[9 : 2] == ADDR_SENSOR_I2C_CTRL)) begin
-            i2c_trans_trg <= #TCQ s_axi_wdata[ 0];
-            i2c_trans_bit_num <= #TCQ s_axi_wdata[11: 8];
+        if( reg_we & ( s_axi_awaddr[9 : 2] == ADDR_IM_DMA_CRTL)) begin
+            dma_en <= #TCQ s_axi_wdata[ 0];
         end else begin
-            i2c_trans_trg <= #TCQ 1'B0;
-            i2c_trans_bit_num <= #TCQ i2c_trans_bit_num;
+            dma_en <= #TCQ dma_en;
         end
     end
 end
@@ -676,12 +655,48 @@ end
 always @( posedge s_axi_aclk or posedge reg_rst)
 begin
     if( reg_rst) begin
-        i2c_trans_din <= #TCQ 11'D0;
+        addr_pool_flush <= #TCQ 1'B0;
     end else begin
-        if( reg_we & ( s_axi_awaddr[9 : 2] == ADDR_SENSOR_I2C_DATA)) begin
-            i2c_trans_din <= #TCQ s_axi_wdata[10: 0];
+        if( reg_we & ( s_axi_awaddr[9 : 2] == ADDR_IM_DMA_ADDR_POOL_CRTL)) begin
+            addr_pool_flush <= #TCQ s_axi_wdata[ 0];
         end else begin
-            i2c_trans_din <= #TCQ i2c_trans_din;
+            addr_pool_flush <= #TCQ addr_pool_flush;
+        end
+    end
+end
+
+always @( posedge s_axi_aclk or posedge reg_rst)
+begin
+    if( reg_rst) begin
+        addr_pool_push <= #TCQ 1'B0;
+    end else begin
+        if( reg_we_pos & ( s_axi_awaddr[9 : 2] == ADDR_IM_DMA_ADDR_POOL)) begin
+            addr_pool_push <= #TCQ 1'B1;
+        end else begin
+            addr_pool_push <= #TCQ 1'B0;
+        end
+    end
+end
+
+always @( posedge s_axi_aclk)
+begin
+    if( reg_we & ( s_axi_awaddr[9 : 2] == ADDR_IM_DMA_ADDR_POOL)) begin
+        addr_pool_din <= #TCQ s_axi_wdata;
+    end else begin
+        addr_pool_din <= #TCQ addr_pool_din;
+    end
+end
+
+////////////////////////////////////////////  ////////////////////////////////////////////
+always @( posedge s_axi_aclk or posedge reg_rst)
+begin
+    if( reg_rst) begin
+        image_dma_int_clr <= #TCQ 1'B0;
+    end else begin
+        if( reg_we_pos & ( s_axi_awaddr[9 : 2] == ADDR_IM_DMA_INT)) begin
+            image_dma_int_clr <= #TCQ s_axi_wdata[ 0];
+        end else begin
+            image_dma_int_clr <= #TCQ 1'B0;
         end
     end
 end
@@ -702,14 +717,11 @@ begin
     end else if( reg_re_pos) begin
         (* full_case, parallel_case *)
         case( s_axi_araddr[9 : 2])
-            ADDR_SENSOR_I2C_CTRL:     	        begin
-                                            		s_axi_rdata_d <= #TCQ { 15'D0, i2c_trans_done, 16'D0};
-                                        		end
-            ADDR_SENSOR_I2C_DATA:     	        begin
-                                            		s_axi_rdata_d <= #TCQ { 22'D0, i2c_trans_dout};
-                                        		end
             ADDR_LVDS_STAT:                     begin
                                                     s_axi_rdata_d <= #TCQ { 30'D0, align_err, mmcm_locked};
+                                                end
+            ADDR_IM_DMA_INT:                    begin
+                                                    s_axi_rdata_d <= #TCQ { 27'D0, image_dma_int_cnt};
                                                 end
             default:                    		begin
                                             		s_axi_rdata_d <= #TCQ 32'Hffff_ffff;
