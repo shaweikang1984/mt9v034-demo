@@ -172,11 +172,7 @@ genvar i;
 /***********************************************************************************************************/
 
 ///////////////////////////////// address assignment ////////////////////////////////////////
-localparam ADDR_SENSOR_DRIVER_INFO = 8'H00;
 localparam ADDR_IMG_PATH_RST = 8'H00;
-////////////////////////////////////////
-localparam ADDR_SENSOR_I2C_CTRL = 8'H01;
-localparam ADDR_SENSOR_I2C_DATA = 8'H02;
 ////////////////////////////////////////
 localparam ADDR_LVDS_STAT = 8'H08;
 ////////////////////////////////////////
@@ -256,7 +252,7 @@ reg s_axi_rvalid_d = 1'B0;
 reg[31: 0] s_axi_rdata_d = 32'D0;
 
 //////////////////////////////////////////////////////////////////////////////
-reg im_rst = 1'B0;
+reg im_rst = 1'B1;
 reg im_oe = 1'B0;
 
 reg dma_en = 1'B0;
@@ -625,12 +621,12 @@ assign s_axi_rvalid = s_axi_rvalid_d;
 always @( posedge s_axi_aclk or posedge reg_rst)
 begin
     if( reg_rst) begin
-        im_rst <= #TCQ 1'B0;
+        im_rst <= #TCQ 1'B1;
         im_oe <= #TCQ 1'B0;
     end else begin
         if( reg_we & ( s_axi_awaddr[9 : 2] == ADDR_IMG_PATH_RST)) begin
             im_rst <= #TCQ s_axi_wdata[ 0];
-            im_oe <= #TCQ s_axi_wdata[ 3];
+            im_oe <= #TCQ s_axi_wdata[ 4];
         end else begin
             im_rst <= #TCQ im_rst;
             im_oe <= #TCQ im_oe;

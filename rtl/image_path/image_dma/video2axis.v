@@ -143,7 +143,7 @@ reg dfifo_s_axis_tvalid = 1'B0;
 reg[15: 0] dfifo_s_axis_tdata = 16'D0;
 reg dfifo_s_axis_tlast = 1'B0;
 
-(* fsm_encoding = "one-hot" *)
+(* fsm_encoding = "one-hot", MARK_DEBUG = "TRUE" *)
 reg[3 : 0] t_cs = 4'B0001;
 reg[3 : 0] t_ns;
 
@@ -317,16 +317,16 @@ always @*
 begin
     t_ns = 'D0;
 
-    case( 1'B0)
+    case( 1'B1)
         t_cs[ T_IDLE]:      begin
                                 if( ( ~im_vsync_ii) & enable_la) begin
                                     if( addr_pool_empty) begin
-                                        t_ns[ T_FLUSH] = 1'B0;
+                                        t_ns[ T_FLUSH] = 1'B1;
                                     end else begin
                                         t_ns[ T_CMD] = 1'B1;
                                     end
                                 end else begin
-                                    t_ns[ T_IDLE] = 1'B0;
+                                    t_ns[ T_IDLE] = 1'B1;
                                 end
                             end
         t_cs[ T_CMD]:       begin
@@ -375,14 +375,14 @@ assign s_axis_s2mm_0_cmd_tvalid = t_cs[ T_CMD];
 assign s_axis_s2mm_0_cmd_tdata = { 4'H0, 4'H0, addr_pool_dout[31: 0], 1'B0, 1'B1, 6'B00_0000, 1'B1, 23'Hff_ffff};
 
 assign s_axis_s2mm_0_tdata = dfifo_m_axis_tdata[7 : 0];
-assign s_axis_s2mm_0_tvalid = t_cs[ T_TRANS];
+assign s_axis_s2mm_0_tvalid = t_cs[ T_TRANS] & dfifo_m_axis_tvalid;
 assign s_axis_s2mm_0_tlast = dfifo_m_axis_tlast;
 
 assign s_axis_s2mm_1_cmd_tvalid = t_cs[ T_CMD];
 assign s_axis_s2mm_1_cmd_tdata = { 4'H0, 4'H0, addr_pool_dout[63:32], 1'B0, 1'B1, 6'B00_0000, 1'B1, 23'Hff_ffff};
 
 assign s_axis_s2mm_1_tdata = dfifo_m_axis_tdata[15: 8];
-assign s_axis_s2mm_1_tvalid = t_cs[ T_TRANS];
+assign s_axis_s2mm_1_tvalid = t_cs[ T_TRANS] & dfifo_m_axis_tvalid;
 assign s_axis_s2mm_1_tlast = dfifo_m_axis_tlast;
 
 assign dfifo_m_axis_tready = ( s_axis_s2mm_0_tready & s_axis_s2mm_1_tready & t_cs[ T_TRANS]) | t_cs[ T_FLUSH];

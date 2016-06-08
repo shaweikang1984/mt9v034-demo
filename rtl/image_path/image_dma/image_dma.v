@@ -545,7 +545,7 @@ assign m_axi_hp1_arvalid = 1'B0;
 
 assign m_axi_hp1_awaddr = m_axi_s2mm_1_awaddr;
 assign m_axi_hp1_awburst = m_axi_s2mm_1_awburst;
-assign m_axi_hp1_awcache = m_axi_s2mm_1_awcache;
+assign m_axi_hp1_awcache = 4'H0;
 assign m_axi_hp1_awid = 6'B00_0000;
 assign m_axi_hp1_awlen = m_axi_s2mm_1_awlen[3 : 0];
 assign m_axi_hp1_awlock = 2'B00;

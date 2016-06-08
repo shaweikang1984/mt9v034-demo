@@ -305,22 +305,22 @@
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_gpio_0_0/ps_ipi_axi_gpio_0_0.xci"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_processing_system7_0_0/ps_ipi_processing_system7_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hw_handoff/ps_ipi.hwh"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_ooc.xdc"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_auto_pc_0/ps_ipi_auto_pc_0.xci"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_protocol_converter_0_0/ps_ipi_axi_protocol_converter_0_0.xci"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_interconnect_0_0/ps_ipi_axi_interconnect_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hw_handoff/ps_ipi_bd.tcl"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hdl/ps_ipi.v"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_rst_processing_system7_0_100M_0/ps_ipi_rst_processing_system7_0_100M_0.xci"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hdl/ps_ipi.hwdef"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hw_handoff/ps_ipi_bd.tcl"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hw_handoff/ps_ipi.hwh"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_auto_pc_0/ps_ipi_auto_pc_0.xci"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_sim_netlist.vhdl"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_stub.v"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_sim_netlist.v"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_gpio_0_0/ps_ipi_axi_gpio_0_0.xci"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi.dcp"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_stub.v"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_stub.vhdl"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_ooc.xdc"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_sim_netlist.v"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_sim_netlist.vhdl"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_processing_system7_0_0/ps_ipi_processing_system7_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_interconnect_0_0/ps_ipi_axi_interconnect_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hdl/ps_ipi.hwdef"/>
       </File>
       <Config>
         <Option Name="TopModule" Val="ps_ipi"/>
@@ -371,19 +371,30 @@
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
     </Run>
-    <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg484-1" ConstrsSet="constrs_1" Description="Default settings for Implementation." State="current" SynthRun="synth_1" IncludeInArchive="true">
+    <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg484-1" ConstrsSet="constrs_1" Description="Uses multiple algorithms for optimization, placement, and routing to get potentially better results." State="current" Dir="$PRUNDIR/impl_1" SynthRun="synth_1" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2016"/>
+        <StratHandle Name="Performance_Explore" Flow="Vivado Implementation 2016">
+          <Desc>Uses multiple algorithms for optimization, placement, and routing to get potentially better results.</Desc>
+        </StratHandle>
         <Step Id="init_design"/>
-        <Step Id="opt_design"/>
+        <Step Id="opt_design">
+          <Option Id="Directive">0</Option>
+        </Step>
         <Step Id="power_opt_design"/>
-        <Step Id="place_design"/>
+        <Step Id="place_design">
+          <Option Id="Directive">0</Option>
+        </Step>
         <Step Id="post_place_power_opt_design"/>
-        <Step Id="phys_opt_design"/>
-        <Step Id="route_design"/>
+        <Step Id="phys_opt_design" EnableStepBool="1">
+          <Option Id="Directive">0</Option>
+        </Step>
+        <Step Id="route_design">
+          <Option Id="Directive">0</Option>
+        </Step>
         <Step Id="post_route_phys_opt_design"/>
         <Step Id="write_bitstream"/>
       </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
     </Run>
     <Run Id="ps_ipi_impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg484-1" ConstrsSet="ps_ipi" Description="Default settings for Implementation." SynthRun="ps_ipi_synth_1" IncludeInArchive="false">
       <Strategy Version="1" Minor="2">
