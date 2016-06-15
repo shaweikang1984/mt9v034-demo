@@ -67,6 +67,16 @@ input ser_dataout_n,
 `endif
 
 /**********  *************/
+inout hdmi_iic_scl_io,
+inout hdmi_iic_sda_io,
+
+output hdmi_io_clk,
+output[15: 0] hdmi_io_data,
+output hdmi_io_de,
+output hdmi_io_hsync,
+output hdmi_io_vsync,
+
+/**********  *************/
 input[7 : 0] sws_8bits_tri_i,
 output[7 : 0] leds_8bits_tri_o
 );
@@ -184,6 +194,9 @@ wire[31: 0] m01_axi_rdata;
 wire[1 : 0] m01_axi_rresp;
 wire m01_axi_rvalid;
 wire m01_axi_rready;
+
+/**********  *************/
+wire image_dma_int;
 
 /**********  *************/
 wire s_axi_hp_aclk;
@@ -307,6 +320,7 @@ wire s_axi_hp1_wvalid;
 //------------------------------------------------------------------------------
 ps_ipi_wrapper ps_ipi_wrapper_inst(
 .ref_clk( ref_clk),
+.Core0_nIRQ( image_dma_int),
 /********** ddr3 i/f  *************/
 .DDR_addr( ddr_addr),
 .DDR_ba( ddr_ba),
@@ -450,6 +464,17 @@ ps_ipi_wrapper ps_ipi_wrapper_inst(
 .S_AXI_HP1_wvalid( s_axi_hp1_wvalid),
 
 /**********  *************/
+.hdmi_io_clk( hdmi_io_clk),
+.hdmi_io_data( hdmi_io_data),
+.hdmi_io_de( hdmi_io_de),
+.hdmi_io_hsync( hdmi_io_hsync),
+.hdmi_io_spdif( hdmi_io_spdif),
+.hdmi_io_vsync( hdmi_io_vsync),
+
+.hdmi_iic_scl_io( hdmi_iic_scl_io),
+.hdmi_iic_sda_io( hdmi_iic_sda_io),
+
+/**********  *************/
 .sws_8bits_tri_i( sws_8bits_tri_i),
 .leds_8bits_tri_o( leds_8bits_tri_o)
 );
@@ -533,6 +558,9 @@ image_path_wrap_inst(
 .dlo_n( dlo_n),
 
 `endif
+
+/**********  *************/
+.image_dma_int( image_dma_int),
 
 /**********  *************/
 .m_axi_hp_aclk( s_axi_hp_aclk),

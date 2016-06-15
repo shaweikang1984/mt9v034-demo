@@ -1,43 +1,59 @@
 {
    guistr: "# # String gsaved with Nlview 6.5.12  2016-01-29 bk=1.3547 VDI=39 GEI=35 GUI=JA:1.6
 #  -string -flagsOSRD
-preplace port S_AXI_HP_ACLK -pg 1 -y 670 -defaultsOSRD
-preplace port S_AXI_HP1 -pg 1 -y 590 -defaultsOSRD
-preplace port DDR -pg 1 -y 490 -defaultsOSRD
-preplace port ref_clk -pg 1 -y 690 -defaultsOSRD
-preplace port S_AXI_HP0_FIFO_CTRL -pg 1 -y 530 -defaultsOSRD
-preplace port SWs_8Bits -pg 1 -y 140 -defaultsOSRD
-preplace port LEDs_8Bits -pg 1 -y 120 -defaultsOSRD
-preplace port M_AXI -pg 1 -y 410 -defaultsOSRD
-preplace port FIXED_IO -pg 1 -y 510 -defaultsOSRD
-preplace port m_axi_aclk -pg 1 -y 470 -defaultsOSRD
-preplace port S_AXI_HP1_FIFO_CTRL -pg 1 -y 550 -defaultsOSRD
-preplace port S_AXI_HP0 -pg 1 -y 570 -defaultsOSRD
-preplace portBus m_axi_aresetn -pg 1 -y 60 -defaultsOSRD
-preplace inst rst_processing_system7_0_100M -pg 1 -lvl 1 -y 330 -defaultsOSRD
-preplace inst axi_protocol_converter_0 -pg 1 -lvl 2 -y 410 -defaultsOSRD
-preplace inst axi_gpio_0 -pg 1 -lvl 2 -y 130 -defaultsOSRD
-preplace inst axi_interconnect_0 -pg 1 -lvl 1 -y 110 -defaultsOSRD
-preplace inst processing_system7_0 -pg 1 -lvl 1 -y 600 -defaultsOSRD
-preplace netloc S_AXI_HP0_1 1 0 1 NJ
-preplace netloc processing_system7_0_DDR 1 1 2 NJ 490 NJ
-preplace netloc S_AXI_HP1_1 1 0 1 NJ
-preplace netloc processing_system7_0_M_AXI_GP1 1 1 1 490
-preplace netloc processing_system7_0_FCLK_RESET0_N 1 0 2 50 420 460
-preplace netloc rst_processing_system7_0_100M_peripheral_aresetn 1 0 3 50 240 460 60 NJ
-preplace netloc axi_protocol_converter_0_M_AXI 1 2 1 NJ
-preplace netloc axi_gpio_0_GPIO2 1 2 1 NJ
-preplace netloc processing_system7_0_FIXED_IO 1 1 2 NJ 510 NJ
-preplace netloc S00_AXI_1 1 0 2 20 440 450
-preplace netloc S_AXI_HP0_FIFO_CTRL_1 1 0 1 NJ
-preplace netloc axi_gpio_0_GPIO 1 2 1 NJ
-preplace netloc axi_interconnect_0_M00_AXI 1 1 1 N
-preplace netloc S_AXI_HP1_FIFO_CTRL_1 1 0 1 NJ
-preplace netloc rst_processing_system7_0_100M_interconnect_aresetn 1 0 2 40 230 480
-preplace netloc processing_system7_0_FCLK_CLK0 1 0 3 30 430 470 480 NJ
-preplace netloc processing_system7_0_FCLK_CLK1 1 0 3 50 760 480 670 NJ
-preplace netloc processing_system7_0_FCLK_CLK2 1 1 2 NJ 690 NJ
-levelinfo -pg 1 0 250 620 770 -top 0 -bot 770
+preplace port S_AXI_HP_ACLK -pg 1 -y 90 -defaultsOSRD
+preplace port hdmi_iic -pg 1 -y 730 -defaultsOSRD
+preplace port S_AXI_HP1 -pg 1 -y 120 -defaultsOSRD
+preplace port DDR -pg 1 -y 50 -defaultsOSRD
+preplace port ref_clk -pg 1 -y 670 -defaultsOSRD
+preplace port S_AXI_HP0_FIFO_CTRL -pg 1 -y 40 -defaultsOSRD
+preplace port SWs_8Bits -pg 1 -y 610 -defaultsOSRD
+preplace port LEDs_8Bits -pg 1 -y 590 -defaultsOSRD
+preplace port M_AXI -pg 1 -y 150 -defaultsOSRD
+preplace port FIXED_IO -pg 1 -y 70 -defaultsOSRD
+preplace port Core0_nIRQ -pg 1 -y 260 -defaultsOSRD
+preplace port m_axi_aclk -pg 1 -y 690 -defaultsOSRD
+preplace port hdmi_io -pg 1 -y 480 -defaultsOSRD
+preplace port S_AXI_HP1_FIFO_CTRL -pg 1 -y 60 -defaultsOSRD
+preplace port S_AXI_HP0 -pg 1 -y 100 -defaultsOSRD
+preplace portBus m_axi_aresetn -pg 1 -y 820 -defaultsOSRD
+preplace inst axi_protocol_converter_0 -pg 1 -lvl 3 -y 150 -defaultsOSRD
+preplace inst axi_gpio_0 -pg 1 -lvl 3 -y 600 -defaultsOSRD
+preplace inst rst_processing_system7_0_50M -pg 1 -lvl 2 -y 780 -defaultsOSRD
+preplace inst axi_interconnect_0 -pg 1 -lvl 1 -y 580 -defaultsOSRD
+preplace inst clk_wiz_0 -pg 1 -lvl 1 -y 810 -defaultsOSRD
+preplace inst zed_hdmi_display -pg 1 -lvl 2 -y 470 -defaultsOSRD
+preplace inst zed_hdmi_iic -pg 1 -lvl 3 -y 750 -defaultsOSRD
+preplace inst processing_system7_0 -pg 1 -lvl 2 -y 150 -defaultsOSRD
+preplace netloc S_AXI_HP0_1 1 0 2 NJ 100 NJ
+preplace netloc processing_system7_0_DDR 1 2 2 NJ 50 NJ
+preplace netloc processing_system7_0_FCLK_CLK3 1 0 4 20 330 NJ 330 850 330 NJ
+preplace netloc Core0_nIRQ_1 1 0 2 NJ 260 NJ
+preplace netloc S_AXI_HP1_1 1 0 2 NJ 120 NJ
+preplace netloc processing_system7_0_M_AXI_GP1 1 2 1 N
+preplace netloc processing_system7_0_FCLK_RESET0_N 1 1 2 420 620 840
+preplace netloc processing_system7_0_FCLK_RESET2_N 1 1 2 420 600 810
+preplace netloc rst_processing_system7_0_100M_peripheral_aresetn 1 0 4 50 860 380 690 830 820 NJ
+preplace netloc axi_protocol_converter_0_M_AXI 1 3 1 NJ
+preplace netloc axi_gpio_0_GPIO2 1 3 1 NJ
+preplace netloc zed_hdmi_display_hdmio_io 1 2 2 NJ 480 NJ
+preplace netloc processing_system7_0_FIXED_IO 1 2 2 NJ 60 NJ
+preplace netloc zed_hdmi_display_M00_AXI 1 1 2 400 590 800
+preplace netloc vdma_ctrl_1 1 1 1 330
+preplace netloc S00_AXI_1 1 0 3 50 310 NJ 310 830
+preplace netloc clk_wiz_0_clk_out1 1 1 1 NJ
+preplace netloc axi_gpio_0_GPIO 1 3 1 NJ
+preplace netloc axi_interconnect_0_M00_AXI 1 1 2 370 580 NJ
+preplace netloc S_AXI_HP0_FIFO_CTRL_1 1 0 2 NJ 40 NJ
+preplace netloc vtc_ctrl_1 1 1 1 350
+preplace netloc zed_hdmi_iic_IIC 1 3 1 NJ
+preplace netloc S_AXI_HP1_FIFO_CTRL_1 1 0 2 NJ 60 NJ
+preplace netloc axi_interconnect_0_M01_AXI 1 1 2 NJ 610 860
+preplace netloc rst_processing_system7_0_100M_interconnect_aresetn 1 0 3 30 870 NJ 870 880
+preplace netloc processing_system7_0_FCLK_CLK0 1 0 4 40 760 340 350 870 680 NJ
+preplace netloc processing_system7_0_FCLK_CLK1 1 1 3 410 320 860 80 NJ
+preplace netloc processing_system7_0_FCLK_CLK2 1 1 2 420 340 820
+levelinfo -pg 1 0 190 610 1010 1160 -top 0 -bot 880
 ",
 }
 {

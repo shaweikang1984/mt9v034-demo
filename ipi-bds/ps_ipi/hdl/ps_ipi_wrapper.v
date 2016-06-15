@@ -1,7 +1,7 @@
 //Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
-//Tool Version: Vivado v.2016.1 (win64) Build 1538259 Fri Apr  8 15:45:27 MDT 2016
-//Date        : Mon Jun 06 15:59:42 2016
+//Tool Version: Vivado v.2016.2 (win64) Build 1577090 Thu Jun  2 16:32:40 MDT 2016
+//Date        : Tue Jun 14 16:08:37 2016
 //Host        : craig-WS running 64-bit major release  (build 9200)
 //Command     : generate_target ps_ipi_wrapper.bd
 //Design      : ps_ipi_wrapper
@@ -10,7 +10,8 @@
 `timescale 1 ps / 1 ps
 
 module ps_ipi_wrapper
-   (DDR_addr,
+   (Core0_nIRQ,
+    DDR_addr,
     DDR_ba,
     DDR_cas_n,
     DDR_ck_n,
@@ -139,11 +140,20 @@ module ps_ipi_wrapper
     S_AXI_HP1_wstrb,
     S_AXI_HP1_wvalid,
     S_AXI_HP_ACLK,
+    hdmi_iic_scl_io,
+    hdmi_iic_sda_io,
+    hdmi_io_clk,
+    hdmi_io_data,
+    hdmi_io_de,
+    hdmi_io_hsync,
+    hdmi_io_spdif,
+    hdmi_io_vsync,
     leds_8bits_tri_o,
     m_axi_aclk,
     m_axi_aresetn,
     ref_clk,
     sws_8bits_tri_i);
+  input Core0_nIRQ;
   inout [14:0]DDR_addr;
   inout [2:0]DDR_ba;
   inout DDR_cas_n;
@@ -273,12 +283,21 @@ module ps_ipi_wrapper
   input [7:0]S_AXI_HP1_wstrb;
   input S_AXI_HP1_wvalid;
   output S_AXI_HP_ACLK;
+  inout hdmi_iic_scl_io;
+  inout hdmi_iic_sda_io;
+  output hdmi_io_clk;
+  output [15:0]hdmi_io_data;
+  output hdmi_io_de;
+  output hdmi_io_hsync;
+  output hdmi_io_spdif;
+  output hdmi_io_vsync;
   output [7:0]leds_8bits_tri_o;
   output m_axi_aclk;
   output [0:0]m_axi_aresetn;
   output ref_clk;
   input [7:0]sws_8bits_tri_i;
 
+  wire Core0_nIRQ;
   wire [14:0]DDR_addr;
   wire [2:0]DDR_ba;
   wire DDR_cas_n;
@@ -408,14 +427,39 @@ module ps_ipi_wrapper
   wire [7:0]S_AXI_HP1_wstrb;
   wire S_AXI_HP1_wvalid;
   wire S_AXI_HP_ACLK;
+  wire hdmi_iic_scl_i;
+  wire hdmi_iic_scl_io;
+  wire hdmi_iic_scl_o;
+  wire hdmi_iic_scl_t;
+  wire hdmi_iic_sda_i;
+  wire hdmi_iic_sda_io;
+  wire hdmi_iic_sda_o;
+  wire hdmi_iic_sda_t;
+  wire hdmi_io_clk;
+  wire [15:0]hdmi_io_data;
+  wire hdmi_io_de;
+  wire hdmi_io_hsync;
+  wire hdmi_io_spdif;
+  wire hdmi_io_vsync;
   wire [7:0]leds_8bits_tri_o;
   wire m_axi_aclk;
   wire [0:0]m_axi_aresetn;
   wire ref_clk;
   wire [7:0]sws_8bits_tri_i;
 
+  IOBUF hdmi_iic_scl_iobuf
+       (.I(hdmi_iic_scl_o),
+        .IO(hdmi_iic_scl_io),
+        .O(hdmi_iic_scl_i),
+        .T(hdmi_iic_scl_t));
+  IOBUF hdmi_iic_sda_iobuf
+       (.I(hdmi_iic_sda_o),
+        .IO(hdmi_iic_sda_io),
+        .O(hdmi_iic_sda_i),
+        .T(hdmi_iic_sda_t));
   ps_ipi ps_ipi_i
-       (.DDR_addr(DDR_addr),
+       (.Core0_nIRQ(Core0_nIRQ),
+        .DDR_addr(DDR_addr),
         .DDR_ba(DDR_ba),
         .DDR_cas_n(DDR_cas_n),
         .DDR_ck_n(DDR_ck_n),
@@ -546,6 +590,18 @@ module ps_ipi_wrapper
         .S_AXI_HP1_wstrb(S_AXI_HP1_wstrb),
         .S_AXI_HP1_wvalid(S_AXI_HP1_wvalid),
         .S_AXI_HP_ACLK(S_AXI_HP_ACLK),
+        .hdmi_iic_scl_i(hdmi_iic_scl_i),
+        .hdmi_iic_scl_o(hdmi_iic_scl_o),
+        .hdmi_iic_scl_t(hdmi_iic_scl_t),
+        .hdmi_iic_sda_i(hdmi_iic_sda_i),
+        .hdmi_iic_sda_o(hdmi_iic_sda_o),
+        .hdmi_iic_sda_t(hdmi_iic_sda_t),
+        .hdmi_io_clk(hdmi_io_clk),
+        .hdmi_io_data(hdmi_io_data),
+        .hdmi_io_de(hdmi_io_de),
+        .hdmi_io_hsync(hdmi_io_hsync),
+        .hdmi_io_spdif(hdmi_io_spdif),
+        .hdmi_io_vsync(hdmi_io_vsync),
         .m_axi_aclk(m_axi_aclk),
         .m_axi_aresetn(m_axi_aresetn),
         .ref_clk(ref_clk));

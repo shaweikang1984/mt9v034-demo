@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Product Version: Vivado v2016.1 (64-bit)              -->
+<!-- Product Version: Vivado v2016.2 (64-bit)              -->
 <!--                                                         -->
 <!-- Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.   -->
 
-<Project Version="7" Minor="12" Path="E:/work/mt9v034_demo/work_dir/mt9v034_demo.xpr">
+<Project Version="7" Minor="14" Path="E:/work/mt9v034_demo/work_dir/mt9v034_demo.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="46ba6a21e12e432db0ea87c58733d906"/>
@@ -19,6 +19,7 @@
     <Option Name="BoardPart" Val="em.avnet.com:zed:part0:0.9"/>
     <Option Name="ActiveSimSet" Val="sim_1"/>
     <Option Name="DefaultLib" Val="xil_defaultlib"/>
+    <Option Name="IPRepoPath" Val="$PPRDIR/../../rs_ip_repository"/>
     <Option Name="EnableCoreContainer" Val="TRUE"/>
     <Option Name="XPMLibraries" Val="XPM_CDC"/>
     <Option Name="XPMLibraries" Val="XPM_MEMORY"/>
@@ -34,13 +35,13 @@
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="31"/>
-    <Option Name="WTModelSimExportSim" Val="31"/>
-    <Option Name="WTQuestaExportSim" Val="31"/>
-    <Option Name="WTIesExportSim" Val="31"/>
-    <Option Name="WTVcsExportSim" Val="31"/>
-    <Option Name="WTRivieraExportSim" Val="31"/>
-    <Option Name="WTActivehdlExportSim" Val="31"/>
+    <Option Name="WTXSimExportSim" Val="44"/>
+    <Option Name="WTModelSimExportSim" Val="44"/>
+    <Option Name="WTQuestaExportSim" Val="44"/>
+    <Option Name="WTIesExportSim" Val="44"/>
+    <Option Name="WTVcsExportSim" Val="44"/>
+    <Option Name="WTRivieraExportSim" Val="44"/>
+    <Option Name="WTActivehdlExportSim" Val="44"/>
     <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
   </Configuration>
   <FileSets Version="1" Minor="31">
@@ -305,22 +306,32 @@
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hw_handoff/ps_ipi.hwh"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_ooc.xdc"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_auto_pc_0/ps_ipi_auto_pc_0.xci"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_protocol_converter_0_0/ps_ipi_axi_protocol_converter_0_0.xci"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hw_handoff/ps_ipi_bd.tcl"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hdl/ps_ipi.v"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_rst_processing_system7_0_100M_0/ps_ipi_rst_processing_system7_0_100M_0.xci"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_gpio_0_0/ps_ipi_axi_gpio_0_0.xci"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi.dcp"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_stub.v"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_stub.vhdl"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_sim_netlist.v"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_sim_netlist.vhdl"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_processing_system7_0_0/ps_ipi_processing_system7_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_clk_wiz_0_0/ps_ipi_clk_wiz_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_iic_0_0/ps_ipi_axi_iic_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_xbar_0/ps_ipi_xbar_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_vcc_0/ps_ipi_vcc_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_v_tc_0_0/ps_ipi_v_tc_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_v_rgb2ycrcb_0_0/ps_ipi_v_rgb2ycrcb_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_v_cresample_0_0/ps_ipi_v_cresample_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_v_axi4s_vid_out_0_0/ps_ipi_v_axi4s_vid_out_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_gnd_0/ps_ipi_gnd_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axis_subset_converter_0_0/ps_ipi_axis_subset_converter_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_proc_sys_reset_0/ps_ipi_proc_sys_reset_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_zed_hdmi_out_0_0/ps_ipi_zed_hdmi_out_0_0.xci"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_interconnect_0_0/ps_ipi_axi_interconnect_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_vdma_0_0/ps_ipi_axi_vdma_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_mem_intercon_0/ps_ipi_axi_mem_intercon_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_protocol_converter_0_0/ps_ipi_axi_protocol_converter_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_rst_processing_system7_0_100M_0/ps_ipi_rst_processing_system7_0_100M_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_processing_system7_0_0/ps_ipi_processing_system7_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_gpio_0_4/ps_ipi_axi_gpio_0_4.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_auto_pc_0/ps_ipi_auto_pc_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_auto_pc_1/ps_ipi_auto_pc_1.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_ooc.xdc"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hdl/ps_ipi.hwdef"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hw_handoff/ps_ipi_bd.tcl"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hw_handoff/ps_ipi.hwh"/>
       </File>
       <Config>
         <Option Name="TopModule" Val="ps_ipi"/>
@@ -366,16 +377,16 @@
     </Run>
     <Run Id="ps_ipi_synth_1" Type="Ft3:Synth" SrcSet="ps_ipi" Part="xc7z020clg484-1" ConstrsSet="ps_ipi" Description="Vivado Synthesis Defaults" Dir="$PRUNDIR/ps_ipi_synth_1" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2016"/>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2016">
+          <Desc>Vivado Synthesis Defaults</Desc>
+        </StratHandle>
         <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
     </Run>
     <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg484-1" ConstrsSet="constrs_1" Description="Uses multiple algorithms for optimization, placement, and routing to get potentially better results." State="current" Dir="$PRUNDIR/impl_1" SynthRun="synth_1" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Performance_Explore" Flow="Vivado Implementation 2016">
-          <Desc>Uses multiple algorithms for optimization, placement, and routing to get potentially better results.</Desc>
-        </StratHandle>
+        <StratHandle Name="Performance_Explore" Flow="Vivado Implementation 2016"/>
         <Step Id="init_design"/>
         <Step Id="opt_design">
           <Option Id="Directive">0</Option>
@@ -398,7 +409,9 @@
     </Run>
     <Run Id="ps_ipi_impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg484-1" ConstrsSet="ps_ipi" Description="Default settings for Implementation." SynthRun="ps_ipi_synth_1" IncludeInArchive="false">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2016"/>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2016">
+          <Desc>Default settings for Implementation.</Desc>
+        </StratHandle>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>
