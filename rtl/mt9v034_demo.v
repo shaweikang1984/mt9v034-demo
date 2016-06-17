@@ -196,7 +196,7 @@ wire m01_axi_rvalid;
 wire m01_axi_rready;
 
 /**********  *************/
-wire image_dma_int;
+wire[1 : 0] image_dma_int;
 
 /**********  *************/
 wire s_axi_hp_aclk;
@@ -320,7 +320,9 @@ wire s_axi_hp1_wvalid;
 //------------------------------------------------------------------------------
 ps_ipi_wrapper ps_ipi_wrapper_inst(
 .ref_clk( ref_clk),
-.Core0_nIRQ( image_dma_int),
+/**********  *************/
+.Core0_nIRQ( image_dma_int[ 0]),
+.Core1_nIRQ( 1'B0),
 /********** ddr3 i/f  *************/
 .DDR_addr( ddr_addr),
 .DDR_ba( ddr_ba),

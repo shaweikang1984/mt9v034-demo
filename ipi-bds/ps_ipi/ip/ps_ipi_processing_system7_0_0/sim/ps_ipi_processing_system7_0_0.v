@@ -56,9 +56,6 @@
 `timescale 1ns/1ps
 
 module ps_ipi_processing_system7_0_0 (
-TTC0_WAVE0_OUT, 
-TTC0_WAVE1_OUT, 
-TTC0_WAVE2_OUT, 
 USB0_PORT_INDCTL, 
 USB0_VBUS_PWRSELECT, 
 USB0_VBUS_PWRFAULT, 
@@ -275,6 +272,8 @@ S_AXI_HP2_AWID,
 S_AXI_HP2_WID, 
 S_AXI_HP2_WDATA, 
 S_AXI_HP2_WSTRB, 
+Core0_nIRQ, 
+Core1_nIRQ, 
 FCLK_CLK0, 
 FCLK_CLK1, 
 FCLK_CLK2, 
@@ -303,9 +302,6 @@ PS_SRSTB,
 PS_CLK, 
 PS_PORB 
 );
-output TTC0_WAVE0_OUT;
-output TTC0_WAVE1_OUT;
-output TTC0_WAVE2_OUT;
 output [1 : 0] USB0_PORT_INDCTL;
 output USB0_VBUS_PWRSELECT;
 input USB0_VBUS_PWRFAULT;
@@ -522,6 +518,8 @@ input [5 : 0] S_AXI_HP2_AWID;
 input [5 : 0] S_AXI_HP2_WID;
 input [63 : 0] S_AXI_HP2_WDATA;
 input [7 : 0] S_AXI_HP2_WSTRB;
+input Core0_nIRQ;
+input Core1_nIRQ;
 output FCLK_CLK0;
 output FCLK_CLK1;
 output FCLK_CLK2;

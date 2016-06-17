@@ -43,12 +43,12 @@ input[15: 0] im_dout,
 /**********  *************/
 input addr_pool_clk,
 input addr_pool_flush,
-input addr_pool_push,
-input[31: 0] addr_pool_din,
+input[1 : 0] addr_pool_push,
+input[63: 0] addr_pool_din,
 /**********  *************/
-output image_dma_int,
-output[4 : 0] image_dma_int_cnt,
-input image_dma_int_clr,
+output[1 : 0] image_dma_int,
+output[9 : 0] image_dma_int_cnt,
+input[1 : 0] image_dma_int_clr,
 
 /**********  *************/
 input m_axi_hp_aclk,
@@ -238,7 +238,7 @@ wire m_axi_s2mm_1_bready;
 
 
 /**********  *************/
-wire int_fifo_empty;
+wire[1 : 0] int_fifo_empty;
 /*************************************************************************************************************/
 /*****************************************  End Wire Declaration  ********************************************/
 /*************************************************************************************************************/
@@ -446,17 +446,30 @@ axi_s2mm axi_s2mm_inst1(
 // -----------------------------------------------------------------------------
 // Other : 
 //------------------------------------------------------------------------------
-int_fifo int_fifo_inst(
-.rst( rst),                      // input wire rst
-.wr_clk( m_axi_hp_aclk),                // input wire wr_clk
-.rd_clk( addr_pool_clk),                // input wire rd_clk
-.din( 1'B0),                      // input wire [0 : 0] din
-.wr_en( m_axis_s2mm_0_sts_tvalid & m_axis_s2mm_1_sts_tvalid),                  // input wire wr_en
-.rd_en( image_dma_int_clr),                  // input wire rd_en
-.dout(),                    // output wire [0 : 0] dout
-.full(),                    // output wire full
-.empty( int_fifo_empty),                  // output wire empty
-.rd_data_count( image_dma_int_cnt)  // output wire [4 : 0] rd_data_count
+int_fifo int_fifo_inst_0(
+.rst( rst), // input wire rst
+.wr_clk( m_axi_hp_aclk), // input wire wr_clk
+.rd_clk( addr_pool_clk), // input wire rd_clk
+.din( 1'B0), // input wire [0 : 0] din
+.wr_en( m_axis_s2mm_0_sts_tready), // input wire wr_en
+.rd_en( image_dma_int_clr[ 0]), // input wire rd_en
+.dout(), // output wire [0 : 0] dout
+.full(), // output wire full
+.empty( int_fifo_empty[ 0]),                  // output wire empty
+.rd_data_count( image_dma_int_cnt[4 : 0])  // output wire [4 : 0] rd_data_count
+);
+
+int_fifo int_fifo_inst_1(
+.rst( rst), // input wire rst
+.wr_clk( m_axi_hp_aclk), // input wire wr_clk
+.rd_clk( addr_pool_clk), // input wire rd_clk
+.din( 1'B0), // input wire [0 : 0] din
+.wr_en( m_axis_s2mm_1_sts_tready), // input wire wr_en
+.rd_en( image_dma_int_clr[ 1]), // input wire rd_en
+.dout(), // output wire [0 : 0] dout
+.full(), // output wire full
+.empty( int_fifo_empty[ 1]), // output wire empty
+.rd_data_count( image_dma_int_cnt[9 : 5])  // output wire [4 : 0] rd_data_count
 );
 
 /***********************************************************************************************************/
@@ -467,7 +480,21 @@ int_fifo int_fifo_inst(
 /*************************************************************************************************************/
 /*********************************  Start Design RTL Description  ********************************************/
 /*************************************************************************************************************/
+//LUT2 #(
+//.INIT( 4'H8))  // Specify LUT Contents
+//m_axis_s2mm_0_sts_tready_lut2_inst(
+//.O( m_axis_s2mm_0_sts_tready),   // LUT general output
+//.I0( m_axis_s2mm_0_sts_tvalid), // LUT input
+//.I1( m_axis_s2mm_1_sts_tvalid)  // LUT input
+//);
 
+//LUT2 #(
+//.INIT( 4'H8))  // Specify LUT Contents
+//m_axis_s2mm_1_sts_tready_lut2_inst(
+//.O( m_axis_s2mm_1_sts_tready),   // LUT general output
+//.I0( m_axis_s2mm_0_sts_tvalid), // LUT input
+//.I1( m_axis_s2mm_1_sts_tvalid)  // LUT input
+//);
 assign m_axis_s2mm_0_sts_tready = m_axis_s2mm_0_sts_tvalid & m_axis_s2mm_1_sts_tvalid;
 assign m_axis_s2mm_1_sts_tready = m_axis_s2mm_0_sts_tvalid & m_axis_s2mm_1_sts_tvalid;
 

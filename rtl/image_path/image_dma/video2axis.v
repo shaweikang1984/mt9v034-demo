@@ -41,8 +41,8 @@ input[15: 0] im_dout,
 /**********  *************/
 input addr_pool_clk,
 input addr_pool_flush,
-input addr_pool_push,
-input[31: 0] addr_pool_din,
+input[1 : 0] addr_pool_push,
+input[63: 0] addr_pool_din,
 
 /**********  *************/
 input axi_s2mm_aclk,
@@ -98,7 +98,7 @@ localparam T_FLUSH = 3;
 wire rst_i;
 
 wire addr_pool_pop;
-wire addr_pool_empty;
+wire[1 : 0] addr_pool_empty;
 wire[63: 0] addr_pool_dout;
 
 wire dfifo_m_axis_tvalid;
@@ -162,16 +162,28 @@ reg[3 : 0] t_ns;
 // -----------------------------------------------------------------------------
 // Other : 
 //------------------------------------------------------------------------------
-vdma_addr_pool vdma_addr_pool_inst(
+vdma_addr_pool vdma_addr_pool_inst_0(
 .rst( addr_pool_flush | rst),    // input wire srst
 .wr_clk( addr_pool_clk),      // input wire clk
 .rd_clk( axi_s2mm_aclk),
-.din( addr_pool_din),      // input wire [31 : 0] din
-.wr_en( addr_pool_push),  // input wire wr_en
+.din( addr_pool_din[31: 0]),      // input wire [31 : 0] din
+.wr_en( addr_pool_push[ 0]),  // input wire wr_en
 .rd_en( addr_pool_pop),  // input wire rd_en
-.dout( addr_pool_dout),    // output wire [63 : 0] dout
+.dout( addr_pool_dout[31: 0]),    // output wire [63 : 0] dout
 .full(),    // output wire full
-.empty( addr_pool_empty)  // output wire empty
+.empty( addr_pool_empty[ 0])  // output wire empty
+);
+
+vdma_addr_pool vdma_addr_pool_inst_1(
+.rst( addr_pool_flush | rst),    // input wire srst
+.wr_clk( addr_pool_clk),      // input wire clk
+.rd_clk( axi_s2mm_aclk),
+.din( addr_pool_din[63:32]),      // input wire [31 : 0] din
+.wr_en( addr_pool_push[ 1]),  // input wire wr_en
+.rd_en( addr_pool_pop),  // input wire rd_en
+.dout( addr_pool_dout[63:32]),    // output wire [63 : 0] dout
+.full(),    // output wire full
+.empty( addr_pool_empty[ 1])  // output wire empty
 );
 
 //------------------------------------------------------------------------------
@@ -320,7 +332,7 @@ begin
     case( 1'B1)
         t_cs[ T_IDLE]:      begin
                                 if( ( ~im_vsync_ii) & enable_la) begin
-                                    if( addr_pool_empty) begin
+                                    if( |addr_pool_empty) begin
                                         t_ns[ T_FLUSH] = 1'B1;
                                     end else begin
                                         t_ns[ T_CMD] = 1'B1;

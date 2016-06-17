@@ -54,7 +54,7 @@
 #include "video_resolution.h"
 
 #include "xaxivdma.h"
-
+#include "video_frame_buffer.h"
 #define NUMBER_OF_READ_FRAMES    XPAR_AXIVDMA_0_NUM_FSTORES
 #define NUMBER_OF_WRITE_FRAMES   XPAR_AXIVDMA_0_NUM_FSTORES
 

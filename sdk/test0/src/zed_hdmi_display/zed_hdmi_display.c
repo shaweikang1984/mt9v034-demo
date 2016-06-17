@@ -51,6 +51,7 @@
 #include <stdio.h>
 
 #include "zed_hdmi_display.h"
+#include "xil_cache.h"
 
 #define ADV7511_ADDR   0x72
 #define CARRIER_HDMI_OUT_CONFIG_LEN  (40)
@@ -337,6 +338,7 @@ int zed_hdmi_display_clear( zed_hdmi_display_t *pDemo )
          }
       }
    }
+   return 0;
 }
 
 int zed_hdmi_display_cbars( zed_hdmi_display_t *pDemo, Xuint32 offset )

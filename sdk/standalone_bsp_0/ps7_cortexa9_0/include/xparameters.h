@@ -385,6 +385,7 @@
 
 /* Definitions for Fabric interrupts connected to ps7_scugic_0 */
 #define XPAR_FABRIC_SYSTEM_CORE0_NIRQ_INTR 31
+#define XPAR_FABRIC_SYSTEM_CORE1_NIRQ_INTR 31
 
 /******************************************************************/
 

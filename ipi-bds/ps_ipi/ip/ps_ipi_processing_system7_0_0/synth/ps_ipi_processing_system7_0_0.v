@@ -274,6 +274,7 @@ module ps_ipi_processing_system7_0_0 (
   S_AXI_HP2_WDATA,
   S_AXI_HP2_WSTRB,
   Core0_nIRQ,
+  Core1_nIRQ,
   FCLK_CLK0,
   FCLK_CLK1,
   FCLK_CLK2,
@@ -737,6 +738,8 @@ input wire [63 : 0] S_AXI_HP2_WDATA;
 input wire [7 : 0] S_AXI_HP2_WSTRB;
 (* X_INTERFACE_INFO = "xilinx.com:signal:interrupt:1.0 Core0_nIRQ INTERRUPT" *)
 input wire Core0_nIRQ;
+(* X_INTERFACE_INFO = "xilinx.com:signal:interrupt:1.0 Core1_nIRQ INTERRUPT" *)
+input wire Core1_nIRQ;
 (* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 FCLK_CLK0 CLK" *)
 output wire FCLK_CLK0;
 (* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 FCLK_CLK1 CLK" *)
@@ -1425,7 +1428,7 @@ inout wire PS_PORB;
     .Core0_nFIQ(1'B0),
     .Core0_nIRQ(Core0_nIRQ),
     .Core1_nFIQ(1'B0),
-    .Core1_nIRQ(1'B0),
+    .Core1_nIRQ(Core1_nIRQ),
     .DMA0_DATYPE(),
     .DMA0_DAVALID(),
     .DMA0_DRREADY(),

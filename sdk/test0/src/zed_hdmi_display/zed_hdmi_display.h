@@ -94,6 +94,8 @@ typedef struct struct_zed_hdmi_display_t zed_hdmi_display_t;
 
 int zed_hdmi_display_init( zed_hdmi_display_t *pDemo );
 
+int zed_hdmi_display_init_0( zed_hdmi_display_t *pDemo );
+
 int zed_hdmi_display_clear( zed_hdmi_display_t *pDemo );
 int zed_hdmi_display_cbars( zed_hdmi_display_t *pDemo, Xuint32 offset );
 int zed_hdmi_display_gray( zed_hdmi_display_t *pDemo, Xuint8 *vrf );

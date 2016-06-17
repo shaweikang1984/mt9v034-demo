@@ -41,10 +41,8 @@ input dlo_p,
 input dlo_n,
 
 `endif
-
-/************************  ***********************/
-output image_dma_int,
-
+/**********  *************/
+output[1 : 0] image_dma_int,
 /**********  *************/
 input m_axi_hp_aclk,
 ///////////////////////////////////////////////////////////////////
@@ -182,9 +180,11 @@ localparam ADDR_LVDS_STAT = 8'H08;
 localparam ADDR_IM_DMA_CRTL = 8'He0;
 ////////////////////////////////////////
 localparam ADDR_IM_DMA_ADDR_POOL_CRTL = 8'Hf0;
-localparam ADDR_IM_DMA_ADDR_POOL = 8'Hf1;
+localparam ADDR_IM_DMA_ADDR_POOL_0 = 8'Hf1;
+localparam ADDR_IM_DMA_ADDR_POOL_1 = 8'Hf2;
 ////////////////////////////////////////
-localparam ADDR_IM_DMA_INT = 8'Hf8;
+localparam ADDR_IM_DMA_INT_0 = 8'Hf8;
+localparam ADDR_IM_DMA_INT_1 = 8'Hf9;
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -225,7 +225,7 @@ wire im_valid_i;
 (* MARK_DEBUG = "TRUE" *)
 wire[15: 0] im_dout_i;
 
-wire[4 : 0] image_dma_int_cnt;
+wire[9 : 0] image_dma_int_cnt;
 
 /*************************************************************************************************************/
 /*****************************************  End Wire Declaration  ********************************************/
@@ -260,10 +260,10 @@ reg im_oe = 1'B0;
 reg dma_en = 1'B0;
 //////////////////////////////////////////////////////////////////////////////
 reg addr_pool_flush = 1'B0;
-reg addr_pool_push = 1'B0;
-reg[31: 0] addr_pool_din = 1'B0;
+reg[1 : 0] addr_pool_push = 2'B00;
+reg[63: 0] addr_pool_din = 64'D0;
 
-reg image_dma_int_clr = 1'B0;
+reg[1 : 0] image_dma_int_clr = 2'B00;
 /***********************************************************************************************************/
 /***************************************  End Registers Declaration  ***************************************/
 /***********************************************************************************************************/
@@ -666,35 +666,51 @@ end
 always @( posedge s_axi_aclk or posedge reg_rst)
 begin
     if( reg_rst) begin
-        addr_pool_push <= #TCQ 1'B0;
+        addr_pool_push <= #TCQ 2'B00;
     end else begin
-        if( reg_we_pos & ( s_axi_awaddr[9 : 2] == ADDR_IM_DMA_ADDR_POOL)) begin
-            addr_pool_push <= #TCQ 1'B1;
+        if( reg_we_pos & ( s_axi_awaddr[9 : 2] == ADDR_IM_DMA_ADDR_POOL_0)) begin
+            addr_pool_push[ 0] <= #TCQ 1'B1;
         end else begin
-            addr_pool_push <= #TCQ 1'B0;
+            addr_pool_push[ 0] <= #TCQ 1'B0;
+        end
+        if( reg_we_pos & ( s_axi_awaddr[9 : 2] == ADDR_IM_DMA_ADDR_POOL_1)) begin
+            addr_pool_push[ 1] <= #TCQ 1'B1;
+        end else begin
+            addr_pool_push[ 1] <= #TCQ 1'B0;
         end
     end
 end
 
 always @( posedge s_axi_aclk)
 begin
-    if( reg_we & ( s_axi_awaddr[9 : 2] == ADDR_IM_DMA_ADDR_POOL)) begin
-        addr_pool_din <= #TCQ s_axi_wdata;
+    if( reg_we & ( s_axi_awaddr[9 : 2] == ADDR_IM_DMA_ADDR_POOL_0)) begin
+        addr_pool_din[31: 0] <= #TCQ s_axi_wdata;
     end else begin
-        addr_pool_din <= #TCQ addr_pool_din;
+        addr_pool_din[31: 0] <= #TCQ addr_pool_din[31: 0];
+    end
+    if( reg_we & ( s_axi_awaddr[9 : 2] == ADDR_IM_DMA_ADDR_POOL_1)) begin
+        addr_pool_din[63:32] <= #TCQ s_axi_wdata;
+    end else begin
+        addr_pool_din[63:32] <= #TCQ addr_pool_din[63:32];
     end
 end
+
 
 ////////////////////////////////////////////  ////////////////////////////////////////////
 always @( posedge s_axi_aclk or posedge reg_rst)
 begin
     if( reg_rst) begin
-        image_dma_int_clr <= #TCQ 1'B0;
+        image_dma_int_clr <= #TCQ 2'B00;
     end else begin
-        if( reg_we_pos & ( s_axi_awaddr[9 : 2] == ADDR_IM_DMA_INT)) begin
-            image_dma_int_clr <= #TCQ s_axi_wdata[ 0];
+        if( reg_we_pos & ( s_axi_awaddr[9 : 2] == ADDR_IM_DMA_INT_0)) begin
+            image_dma_int_clr[ 0] <= #TCQ s_axi_wdata[ 0];
         end else begin
-            image_dma_int_clr <= #TCQ 1'B0;
+            image_dma_int_clr[ 0] <= #TCQ 1'B0;
+        end
+        if( reg_we_pos & ( s_axi_awaddr[9 : 2] == ADDR_IM_DMA_INT_1)) begin
+            image_dma_int_clr[ 1] <= #TCQ s_axi_wdata[ 0];
+        end else begin
+            image_dma_int_clr[ 1] <= #TCQ 1'B0;
         end
     end
 end
@@ -718,8 +734,11 @@ begin
             ADDR_LVDS_STAT:                     begin
                                                     s_axi_rdata_d <= #TCQ { 30'D0, align_err, mmcm_locked};
                                                 end
-            ADDR_IM_DMA_INT:                    begin
-                                                    s_axi_rdata_d <= #TCQ { 27'D0, image_dma_int_cnt};
+            ADDR_IM_DMA_INT_0:                  begin
+                                                    s_axi_rdata_d <= #TCQ { 27'D0, image_dma_int_cnt[4 : 0]};
+                                                end
+            ADDR_IM_DMA_INT_1:                  begin
+                                                    s_axi_rdata_d <= #TCQ { 27'D0, image_dma_int_cnt[9 : 5]};
                                                 end
             default:                    		begin
                                             		s_axi_rdata_d <= #TCQ 32'Hffff_ffff;

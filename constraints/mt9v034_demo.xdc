@@ -29,6 +29,8 @@ set_property port_width 19 [get_debug_ports u_ila_1/probe0]
 connect_debug_port u_ila_1/probe0 [get_nets [list {image_path_wrap_inst/im_dout_i[0]} {image_path_wrap_inst/im_dout_i[1]} {image_path_wrap_inst/im_dout_i[2]} {image_path_wrap_inst/im_dout_i[3]} {image_path_wrap_inst/im_dout_i[4]} {image_path_wrap_inst/im_dout_i[5]} {image_path_wrap_inst/im_dout_i[6]} {image_path_wrap_inst/im_dout_i[7]} {image_path_wrap_inst/im_dout_i[8]} {image_path_wrap_inst/im_dout_i[9]} {image_path_wrap_inst/im_dout_i[10]} {image_path_wrap_inst/im_dout_i[11]} {image_path_wrap_inst/im_dout_i[12]} {image_path_wrap_inst/im_dout_i[13]} {image_path_wrap_inst/im_dout_i[14]} {image_path_wrap_inst/im_dout_i[15]} image_path_wrap_inst/im_hsync_i image_path_wrap_inst/im_vsync_i image_path_wrap_inst/im_valid_i]]
 
 
+
+
 set_property C_CLK_INPUT_FREQ_HZ 300000000 [get_debug_cores dbg_hub]
 set_property C_ENABLE_CLK_DIVIDER false [get_debug_cores dbg_hub]
 set_property C_USER_SCAN_CHAIN 1 [get_debug_cores dbg_hub]

@@ -1,7 +1,7 @@
 //Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2016.2 (win64) Build 1577090 Thu Jun  2 16:32:40 MDT 2016
-//Date        : Tue Jun 14 16:08:37 2016
+//Date        : Fri Jun 17 14:43:58 2016
 //Host        : craig-WS running 64-bit major release  (build 9200)
 //Command     : generate_target ps_ipi_wrapper.bd
 //Design      : ps_ipi_wrapper
@@ -11,6 +11,7 @@
 
 module ps_ipi_wrapper
    (Core0_nIRQ,
+    Core1_nIRQ,
     DDR_addr,
     DDR_ba,
     DDR_cas_n,
@@ -154,6 +155,7 @@ module ps_ipi_wrapper
     ref_clk,
     sws_8bits_tri_i);
   input Core0_nIRQ;
+  input Core1_nIRQ;
   inout [14:0]DDR_addr;
   inout [2:0]DDR_ba;
   inout DDR_cas_n;
@@ -298,6 +300,7 @@ module ps_ipi_wrapper
   input [7:0]sws_8bits_tri_i;
 
   wire Core0_nIRQ;
+  wire Core1_nIRQ;
   wire [14:0]DDR_addr;
   wire [2:0]DDR_ba;
   wire DDR_cas_n;
@@ -459,6 +462,7 @@ module ps_ipi_wrapper
         .T(hdmi_iic_sda_t));
   ps_ipi ps_ipi_i
        (.Core0_nIRQ(Core0_nIRQ),
+        .Core1_nIRQ(Core1_nIRQ),
         .DDR_addr(DDR_addr),
         .DDR_ba(DDR_ba),
         .DDR_cas_n(DDR_cas_n),

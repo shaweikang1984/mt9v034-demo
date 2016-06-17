@@ -35,13 +35,13 @@
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="44"/>
-    <Option Name="WTModelSimExportSim" Val="44"/>
-    <Option Name="WTQuestaExportSim" Val="44"/>
-    <Option Name="WTIesExportSim" Val="44"/>
-    <Option Name="WTVcsExportSim" Val="44"/>
-    <Option Name="WTRivieraExportSim" Val="44"/>
-    <Option Name="WTActivehdlExportSim" Val="44"/>
+    <Option Name="WTXSimExportSim" Val="49"/>
+    <Option Name="WTModelSimExportSim" Val="49"/>
+    <Option Name="WTQuestaExportSim" Val="49"/>
+    <Option Name="WTIesExportSim" Val="49"/>
+    <Option Name="WTVcsExportSim" Val="49"/>
+    <Option Name="WTRivieraExportSim" Val="49"/>
+    <Option Name="WTActivehdlExportSim" Val="49"/>
     <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
   </Configuration>
   <FileSets Version="1" Minor="31">
@@ -264,6 +264,12 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PPRDIR/../constraints/mt9v034_demo.xdc">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+        </FileInfo>
+      </File>
       <File Path="$PPRDIR/../constraints/mt9v034_demo_pin_placement.tcl">
         <FileInfo>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -274,12 +280,6 @@
         <FileInfo>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../constraints/mt9v034_demo.xdc">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
         </FileInfo>
       </File>
       <Config>
@@ -306,32 +306,37 @@
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hdl/ps_ipi.v"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_v_axi4s_vid_out_0_0/ps_ipi_v_axi4s_vid_out_0_0.xci"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_clk_wiz_0_0/ps_ipi_clk_wiz_0_0.xci"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_iic_0_0/ps_ipi_axi_iic_0_0.xci"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_xbar_0/ps_ipi_xbar_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_v_rgb2ycrcb_0_0/ps_ipi_v_rgb2ycrcb_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_gpio_0_4/ps_ipi_axi_gpio_0_4.xci"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_vcc_0/ps_ipi_vcc_0.xci"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_v_tc_0_0/ps_ipi_v_tc_0_0.xci"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_v_rgb2ycrcb_0_0/ps_ipi_v_rgb2ycrcb_0_0.xci"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_v_cresample_0_0/ps_ipi_v_cresample_0_0.xci"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_v_axi4s_vid_out_0_0/ps_ipi_v_axi4s_vid_out_0_0.xci"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_gnd_0/ps_ipi_gnd_0.xci"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axis_subset_converter_0_0/ps_ipi_axis_subset_converter_0_0.xci"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_proc_sys_reset_0/ps_ipi_proc_sys_reset_0.xci"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_zed_hdmi_out_0_0/ps_ipi_zed_hdmi_out_0_0.xci"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_interconnect_0_0/ps_ipi_axi_interconnect_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axis_subset_converter_0_0/ps_ipi_axis_subset_converter_0_0.xci"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_vdma_0_0/ps_ipi_axi_vdma_0_0.xci"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_mem_intercon_0/ps_ipi_axi_mem_intercon_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_zed_hdmi_out_0_0/ps_ipi_zed_hdmi_out_0_0.xci"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_protocol_converter_0_0/ps_ipi_axi_protocol_converter_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_interconnect_0_0/ps_ipi_axi_interconnect_0_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_gnd_0/ps_ipi_gnd_0.xci"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_rst_processing_system7_0_100M_0/ps_ipi_rst_processing_system7_0_100M_0.xci"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_processing_system7_0_0/ps_ipi_processing_system7_0_0.xci"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_axi_gpio_0_4/ps_ipi_axi_gpio_0_4.xci"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_auto_pc_0/ps_ipi_auto_pc_0.xci"/>
-        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_auto_pc_1/ps_ipi_auto_pc_1.xci"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_ooc.xdc"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hdl/ps_ipi.v"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hdl/ps_ipi.hwdef"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hw_handoff/ps_ipi_bd.tcl"/>
         <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="hw_handoff/ps_ipi.hwh"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_auto_pc_0/ps_ipi_auto_pc_0.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ip/ps_ipi_auto_pc_1/ps_ipi_auto_pc_1.xci"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_sim_netlist.v"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi.dcp"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_sim_netlist.vhdl"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_stub.v"/>
+        <CompFileExtendedInfo CompFileName="ps_ipi.bd" FileRelPathName="ps_ipi_stub.vhdl"/>
       </File>
       <Config>
         <Option Name="TopModule" Val="ps_ipi"/>
